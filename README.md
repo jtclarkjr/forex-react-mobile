@@ -59,13 +59,13 @@ GET /api/forex?pair=USD/JPY&stream=true
 1. Install dependencies:
 
 ```bash
-npm install
+bun install
 ```
 
 2. Start the development server:
 
 ```bash
-npx expo start
+bun start
 ```
 
 3. Choose your platform:
@@ -141,17 +141,17 @@ The project includes several development scripts for maintaining code quality:
 
 ```bash
 # Start development server
-npm start
+bun start
 
 # Platform-specific development
-npm run ios      # iOS simulator
-npm run android  # Android emulator
-npm run web      # Web browser
+bun ios      # iOS simulator
+bun android  # Android emulator
+bun web      # Web browser
 
 # Code quality
-npm run lint     # Run oxlint with auto-fix
-npm run format   # Format code with Prettier
-npm test         # Run tests with Jest
+bun lint     # Run oxlint with auto-fix
+bun format   # Format code with Prettier
+bun test         # Run tests with Jest
 ```
 
 ## Development Tools
