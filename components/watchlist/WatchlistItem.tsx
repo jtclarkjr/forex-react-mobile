@@ -97,6 +97,56 @@ export default function WatchlistItem({
     }
   }
 
+  const renderRateDisplay = () => {
+    // Show loading indicator when loading and no data available
+    if (loading && !data) {
+      return <ActivityIndicator size="small" color={colors.textSecondary} />
+    }
+
+    // Show rate information when data is available and item is active
+    if (data && item.isActive) {
+      return (
+        <View style={styles.rateInfo}>
+          <Text
+            style={styles.priceText}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.8}
+          >
+            {formatPrice(data.price)}
+          </Text>
+          <View style={styles.bidAskRow}>
+            <Text
+              style={styles.bidAskText}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.7}
+            >
+              Bid: {formatPrice(data.bid)}
+            </Text>
+            <Text style={{ width: 8 }} />
+            <Text
+              style={styles.bidAskText}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.7}
+            >
+              Ask: {formatPrice(data.ask)}
+            </Text>
+          </View>
+        </View>
+      )
+    }
+
+    // Show error message when there's an error and item is active
+    if (error && item.isActive) {
+      return <Text style={styles.errorText}>Error loading data</Text>
+    }
+
+    // Default fallback: show placeholder
+    return <Text style={styles.noDataText}>--</Text>
+  }
+
   return (
     <View style={[styles.container, isDragging && styles.dragging]}>
       {/* Drag Handle */}
@@ -140,46 +190,7 @@ export default function WatchlistItem({
         </View>
 
         {/* Rate Display */}
-        <View style={styles.rateSection}>
-          {loading && !data ? (
-            <ActivityIndicator size="small" color={colors.textSecondary} />
-          ) : data && item.isActive ? (
-            <View style={styles.rateInfo}>
-              <Text
-                style={styles.priceText}
-                numberOfLines={1}
-                adjustsFontSizeToFit
-                minimumFontScale={0.8}
-              >
-                {formatPrice(data.price)}
-              </Text>
-              <View style={styles.bidAskRow}>
-                <Text
-                  style={styles.bidAskText}
-                  numberOfLines={1}
-                  adjustsFontSizeToFit
-                  minimumFontScale={0.7}
-                >
-                  Bid: {formatPrice(data.bid)}
-                </Text>
-                <Text style={{ width: 8 }} />
-                <Text
-                  style={styles.bidAskText}
-                  numberOfLines={1}
-                  adjustsFontSizeToFit
-                  minimumFontScale={0.7}
-                >
-                  Ask: {formatPrice(data.ask)}
-                </Text>
-              </View>
-            </View>
-          ) : error && item.isActive ? (
-            <Text style={styles.errorText}>Error loading data</Text>
-          ) : (
-            <Text style={styles.noDataText}>--</Text>
-          )}
-        </View>
-
+        <View style={styles.rateSection}>{renderRateDisplay()}</View>
       </TouchableOpacity>
     </View>
   )

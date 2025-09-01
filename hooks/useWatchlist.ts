@@ -35,19 +35,42 @@ export default function useWatchlist() {
   }, [])
 
   const migrateWatchlistItem = (item: unknown): WatchlistItem => {
-    const typedItem = item as Record<string, unknown> // Type assertion after unknown check
+    const typedItem = item as Record<string, unknown>
+
+    // Validate that we have the required fields
+    if (typeof typedItem.pairString !== 'string') {
+      throw new Error('Invalid watchlist item: missing pairString')
+    }
+
     // Handle old format that might not have the pair property
-    if (!typedItem.pair && typedItem.pairString) {
+    if (!typedItem.pair) {
       const [base, quote] = typedItem.pairString.split('/')
       return {
-        ...typedItem,
+        id:
+          typeof typedItem.id === 'string'
+            ? typedItem.id
+            : `${Date.now()}-${Math.random()}`,
         pair: {
           base: base as CurrencyPair['base'],
           quote: quote as CurrencyPair['quote']
-        }
+        },
+        pairString: typedItem.pairString,
+        isActive:
+          typeof typedItem.isActive === 'boolean' ? typedItem.isActive : true
       }
     }
-    return typedItem
+
+    // Handle newer format - construct a proper WatchlistItem
+    return {
+      id:
+        typeof typedItem.id === 'string'
+          ? typedItem.id
+          : `${Date.now()}-${Math.random()}`,
+      pair: typedItem.pair as CurrencyPair,
+      pairString: typedItem.pairString,
+      isActive:
+        typeof typedItem.isActive === 'boolean' ? typedItem.isActive : true
+    }
   }
 
   const loadWatchlist = async () => {

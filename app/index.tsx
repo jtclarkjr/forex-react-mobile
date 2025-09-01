@@ -106,7 +106,6 @@ export default function WatchlistScreen() {
     }
   }
 
-
   const handleDelete = (itemId: string) => {
     Alert.alert(
       'Remove Pair',
@@ -189,15 +188,19 @@ export default function WatchlistScreen() {
           onPress={handleOpenModal}
           disabled={availablePairs.length === 0}
         >
-          <FontAwesome 
-            name="plus" 
-            size={16} 
-            color={availablePairs.length === 0 ? colors.inactiveText : "#FFFFFF"} 
+          <FontAwesome
+            name="plus"
+            size={16}
+            color={
+              availablePairs.length === 0 ? colors.inactiveText : '#FFFFFF'
+            }
           />
-          <Text style={[
-            styles.addButtonText,
-            availablePairs.length === 0 && styles.addButtonTextDisabled
-          ]}>
+          <Text
+            style={[
+              styles.addButtonText,
+              availablePairs.length === 0 && styles.addButtonTextDisabled
+            ]}
+          >
             Add Pair
           </Text>
         </TouchableOpacity>

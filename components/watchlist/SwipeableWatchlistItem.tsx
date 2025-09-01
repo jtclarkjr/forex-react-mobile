@@ -1,12 +1,12 @@
 import React from 'react'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Animated
-} from 'react-native'
-import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
+import Animated, {
+  SharedValue,
+  interpolate,
+  useAnimatedStyle
+} from 'react-native-reanimated'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import WatchlistItem from './WatchlistItem'
 import type { WatchlistItem as WatchlistItemType } from '@/types/forex'
@@ -30,37 +30,36 @@ export default function SwipeableWatchlistItem({
   onDrag,
   isDragging
 }: SwipeableWatchlistItemProps) {
-  const renderRightActions = (
-    progress: Animated.AnimatedAddition,
-    _dragX: Animated.AnimatedAddition
-  ) => {
-    const scale = progress.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 1],
-      extrapolate: 'clamp'
-    })
+  const renderRightActions = (progressAnimatedValue: SharedValue<number>) => {
+    const handleDelete = () => {
+      onDelete(item.id)
+    }
 
-    const opacity = progress.interpolate({
-      inputRange: [0, 0.5, 1],
-      outputRange: [0, 0.5, 1],
-      extrapolate: 'clamp'
+    const animatedStyle = useAnimatedStyle(() => {
+      const scale = interpolate(
+        progressAnimatedValue.value,
+        [0, 1],
+        [0, 1],
+        'clamp'
+      )
+
+      const opacity = interpolate(
+        progressAnimatedValue.value,
+        [0, 0.5, 1],
+        [0, 0.5, 1],
+        'clamp'
+      )
+
+      return {
+        transform: [{ scale }],
+        opacity
+      }
     })
 
     return (
       <View style={styles.rightActionContainer}>
-        <Animated.View
-          style={[
-            styles.deleteAction,
-            {
-              transform: [{ scale }],
-              opacity
-            }
-          ]}
-        >
-          <TouchableOpacity
-            style={styles.deleteButton}
-            onPress={() => onDelete(item.id)}
-          >
+        <Animated.View style={[styles.deleteAction, animatedStyle]}>
+          <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
             <FontAwesome name="trash" size={20} color="white" />
             <Text style={styles.deleteText}>Delete</Text>
           </TouchableOpacity>
@@ -90,7 +89,6 @@ export default function SwipeableWatchlistItem({
     </GestureHandlerRootView>
   )
 }
-
 
 const styles = StyleSheet.create({
   rightActionContainer: {

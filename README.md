@@ -56,7 +56,8 @@ GET /api/forex?pair=USD/JPY&stream=true
 
 ## API Setup
 
-Before running the application, you need to pull and run the required API service:
+Before running the application, you need to pull and run the required API
+service:
 
 1. Pull the Docker image:
 
