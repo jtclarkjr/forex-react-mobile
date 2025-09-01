@@ -54,6 +54,24 @@ GET /api/forex?pair=USD/JPY&stream=true
 - EUR/JPY
 - GBP/JPY
 
+## API Setup
+
+Before running the application, you need to pull and run the required API service:
+
+1. Pull the Docker image:
+
+```bash
+docker pull paidyinc/one-frame:latest
+```
+
+2. Run the service:
+
+```bash
+docker run -p 8080:8080 paidyinc/one-frame
+```
+
+The API service will be available at `http://localhost:8080`.
+
 ## Getting Started
 
 1. Install dependencies:
