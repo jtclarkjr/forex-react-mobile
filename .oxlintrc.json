@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "react", "oxc"],
+  "rules": {
+    "no-unused-vars": "deny",
+    "react/jsx-no-undef": "deny",
+    "no-explicit-any": "deny"
+  },
+  "ignorePatterns": [
+    "**/.next/**",
+    "**/dist/**",
+    "**/dist-ssr/**",
+    "**/coverage/**",
+    "node_modules/"
+  ]
+}
