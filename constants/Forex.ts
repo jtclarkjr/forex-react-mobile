@@ -1,4 +1,5 @@
-import type { SupportedCurrency } from '../types/forex'
+import type { SupportedCurrency } from '@/types/forex'
+import { SUPPORTED_PAIRS } from '@/constants/Config'
 
 export const SUPPORTED_CURRENCIES: SupportedCurrency[] = [
   'USD',
@@ -18,20 +19,7 @@ export const DEFAULT_CURRENCY_PAIR = {
 
 export const FOREX_UPDATE_INTERVAL = 2000 // 2 seconds
 
-// Base exchange rates for simulation
-export const BASE_RATES: Record<string, number> = {
-  'USD/JPY': 150.25,
-  'EUR/USD': 1.0845,
-  'GBP/USD': 1.2678,
-  'AUD/USD': 0.6534,
-  'USD/CAD': 1.3542,
-  'USD/CHF': 0.8756,
-  'USD/CNY': 7.2345,
-  'EUR/JPY': 162.95,
-  'GBP/JPY': 190.45
-}
-
-// Default watchlist pairs
+// Default watchlist pairs (using forex service supported pairs)
 export const DEFAULT_WATCHLIST_PAIRS = [
   'USD/JPY',
   'EUR/USD',
@@ -40,5 +28,5 @@ export const DEFAULT_WATCHLIST_PAIRS = [
   'USD/CAD'
 ]
 
-// All available pairs
-export const AVAILABLE_PAIRS = Object.keys(BASE_RATES)
+// All available pairs (using forex service supported pairs)
+export const AVAILABLE_PAIRS = [...SUPPORTED_PAIRS]
