@@ -39,8 +39,8 @@ export default function PairDetailsModal() {
     return price.toFixed(decimals)
   }
 
-  const formatTimestamp = (timestamp: number) => {
-    return new Date(timestamp).toLocaleTimeString()
+  const formatTimestamp = (timeStamp: string) => {
+    return new Date(timeStamp).toLocaleTimeString()
   }
 
   const getConnectionStatusColor = () => {
@@ -118,7 +118,7 @@ export default function PairDetailsModal() {
               <Text style={styles.currentPriceLabel}>Current Price</Text>
               <Text style={styles.currentPrice}>{formatPrice(data.price)}</Text>
               <Text style={styles.lastUpdated}>
-                Last updated: {formatTimestamp(data.timestamp)}
+                Last updated: {formatTimestamp(data.time_stamp)}
               </Text>
             </View>
 

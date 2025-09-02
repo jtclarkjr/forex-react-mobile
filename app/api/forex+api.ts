@@ -1,18 +1,18 @@
-import type { ForexRate, ApiResponse } from '@/types/forex'
+import type { ForexRate, ApiResponse, ForexServiceResponse } from '@/types/forex'
 import { FOREX_SERVICE_CONFIG } from '@/constants/Config'
 
 // Forex service configuration
 const FOREX_SERVICE_URL = FOREX_SERVICE_CONFIG.BASE_URL
 const API_TOKEN = FOREX_SERVICE_CONFIG.API_TOKEN
 
-// Forex service response interface
-interface ForexServiceResponse {
-  from: string
-  to: string
-  bid: number
-  ask: number
-  price: number
-  time_stamp: string
+// Utility function to format service response numbers to consistent precision
+function formatForexResponse(serviceResponse: ForexServiceResponse): ForexRate {
+  return {
+    ...serviceResponse,
+    bid: parseFloat(serviceResponse.bid.toFixed(5)),
+    ask: parseFloat(serviceResponse.ask.toFixed(5)),
+    price: parseFloat(serviceResponse.price.toFixed(5))
+  }
 }
 
 async function fetchFromForexService(pair: string): Promise<ForexRate> {
@@ -40,14 +40,7 @@ async function fetchFromForexService(pair: string): Promise<ForexRate> {
 
   const rate = data[0]
   
-  return {
-    from: rate.from,
-    to: rate.to,
-    bid: parseFloat(rate.bid.toFixed(5)),
-    ask: parseFloat(rate.ask.toFixed(5)),
-    price: parseFloat(rate.price.toFixed(5)),
-    timestamp: new Date(rate.time_stamp).getTime()
-  }
+  return formatForexResponse(rate)
 }
 
 export async function GET(request: Request): Promise<Response> {
@@ -129,14 +122,7 @@ export async function GET(request: Request): Promise<Response> {
                         const targetRate = rates.find(r => `${r.from}/${r.to}` === pair)
                         
                         if (targetRate) {
-                          const forexRate: ForexRate = {
-                            from: targetRate.from,
-                            to: targetRate.to,
-                            bid: parseFloat(targetRate.bid.toFixed(5)),
-                            ask: parseFloat(targetRate.ask.toFixed(5)),
-                            price: parseFloat(targetRate.price.toFixed(5)),
-                            timestamp: new Date(targetRate.time_stamp).getTime()
-                          }
+                          const forexRate = formatForexResponse(targetRate)
                           
                           const apiResponse: ApiResponse<ForexRate> = {
                             success: true,

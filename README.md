@@ -150,7 +150,7 @@ interface ForexRate {
   bid: number // Bid price
   ask: number // Ask price
   price: number // Current rate
-  timestamp: number // Unix timestamp
+  time_stamp: string // ISO timestamp
 }
 ```
 

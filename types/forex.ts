@@ -8,14 +8,21 @@ export type SupportedCurrency =
   | 'CHF'
   | 'CNY'
 
+
+export type ConnectionStatus = 'connected' | 'connecting' | 'disconnected'
+
+// Main forex rate interface (using service format directly)
 export interface ForexRate {
   from: string
   to: string
   bid: number
   ask: number
   price: number
-  timestamp: number
+  time_stamp: string
 }
+
+// Type alias for external service response (same as ForexRate)
+export type ForexServiceResponse = ForexRate
 
 export interface ForexStreamData {
   rates: ForexRate[]
@@ -37,7 +44,7 @@ export interface UseForexStreamState {
   data: ForexRate | null
   loading: boolean
   error: string | null
-  connectionStatus: 'connected' | 'connecting' | 'disconnected'
+  connectionStatus: ConnectionStatus
 }
 
 export interface WatchlistItem {
