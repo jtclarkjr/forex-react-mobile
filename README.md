@@ -239,6 +239,8 @@ bun test         # Run tests with Jest
 - Code is automatically linted and formatted with oxlint and Prettier
 - Animation performance is optimized using native drivers
 - Storage includes automatic data migration for version compatibility
+- NEED TODO: For WEB fix rearrange, Delete, Close details from screen (not just
+  browser back)
 
 ## License
 
