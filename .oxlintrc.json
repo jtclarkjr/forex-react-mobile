@@ -7,9 +7,7 @@
     "no-explicit-any": "deny"
   },
   "ignorePatterns": [
-    "**/.next/**",
-    "**/dist/**",
-    "**/dist-ssr/**",
+    "**/.expo/**",
     "**/coverage/**",
     "node_modules/"
   ]
