@@ -92,7 +92,31 @@ export const fetchFromForexService = async (pair: string): Promise<ForexRate> =>
       }
     }
 
-    const data: ForexServiceResponse[] = await response.json()
+    let data: ForexServiceResponse[]
+    
+    try {
+      const responseText = await response.text()
+      
+      // Check if the response contains quota error messages
+      if (responseText.includes('Quota reached') || responseText.includes('QuotaReached')) {
+        throw createForexServiceError(
+          'API quota exceeded. Please try again later.',
+          'quota_exceeded',
+          429,
+          60
+        )
+      }
+      
+      data = JSON.parse(responseText)
+    } catch (jsonError) {
+      if (isForexServiceError(jsonError)) {
+        throw jsonError
+      }
+      throw createForexServiceError(
+        'Invalid JSON response from forex service',
+        'invalid_response'
+      )
+    }
     
     if (!data || data.length === 0) {
       throw createForexServiceError(
@@ -101,7 +125,23 @@ export const fetchFromForexService = async (pair: string): Promise<ForexRate> =>
       )
     }
 
-    return formatForexResponse(data[0])
+    const firstItem = data[0]
+    
+    // Validate that the response has required properties
+    if (!firstItem || 
+        typeof firstItem.bid !== 'number' ||
+        typeof firstItem.ask !== 'number' ||
+        typeof firstItem.price !== 'number' ||
+        !firstItem.from || 
+        !firstItem.to ||
+        !firstItem.time_stamp) {
+      throw createForexServiceError(
+        'Invalid response format from forex service',
+        'invalid_response'
+      )
+    }
+
+    return formatForexResponse(firstItem)
   } catch (error) {
     // Handle network/connection errors
     if (isForexServiceError(error)) {

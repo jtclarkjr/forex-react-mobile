@@ -2,6 +2,14 @@ import type { ForexRate, ApiResponse, ForexServiceResponse } from '@/types/forex
 
 // Formats service response numbers to consistent precision
 export const formatForexResponse = (serviceResponse: ForexServiceResponse): ForexRate => {
+  // Validate that serviceResponse has required properties
+  if (!serviceResponse || 
+      typeof serviceResponse.bid !== 'number' ||
+      typeof serviceResponse.ask !== 'number' ||
+      typeof serviceResponse.price !== 'number') {
+    throw new Error('Invalid forex service response: missing required numeric properties')
+  }
+  
   return {
     ...serviceResponse,
     bid: parseFloat(serviceResponse.bid.toFixed(5)),

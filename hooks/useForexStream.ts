@@ -97,6 +97,7 @@ export default function useForexStream(currencyPair: CurrencyPair) {
         const errorInfo = parseErrorFromResponse(response, result)
         setState((prev) => ({
           ...prev,
+          loading: false,
           error: errorInfo.message,
           connectionStatus: 'disconnected'
         }))
@@ -127,6 +128,7 @@ export default function useForexStream(currencyPair: CurrencyPair) {
 
       setState((prev) => ({
         ...prev,
+        loading: false,
         error: errorMessage,
         connectionStatus: 'disconnected'
       }))

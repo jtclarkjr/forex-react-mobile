@@ -32,6 +32,17 @@ const processStreamBuffer = (
           const targetRate = rates.find(r => `${r.from}/${r.to}` === pair)
           
           if (targetRate) {
+            // Validate targetRate has required properties before formatting
+            if (typeof targetRate.bid !== 'number' ||
+                typeof targetRate.ask !== 'number' ||
+                typeof targetRate.price !== 'number' ||
+                !targetRate.from || 
+                !targetRate.to ||
+                !targetRate.time_stamp) {
+              console.error('Invalid rate data from streaming service:', targetRate)
+              return
+            }
+            
             const forexRate = formatForexResponse(targetRate)
             const apiResponse: ApiResponse<ForexRate> = {
               success: true,
