@@ -7,7 +7,8 @@ import {
   Modal,
   ScrollView,
   StatusBar,
-  SafeAreaView
+  SafeAreaView,
+  RefreshControl
 } from 'react-native'
 import { Text } from '@/components/common/Themed'
 import { useAppTheme } from '@/styles/theme'
@@ -32,10 +33,12 @@ export default function WatchlistScreen() {
   const {
     watchlistState,
     loading,
+    refreshing,
     addMultiplePairs,
     removePair,
     reorderPairs,
-    getAvailableToAdd
+    getAvailableToAdd,
+    refreshWatchlistData
   } = useWatchlist()
 
   const [showAddModal, setShowAddModal] = useState(false)
@@ -259,6 +262,14 @@ export default function WatchlistScreen() {
               renderItem={renderDragItem}
               style={{ height: '100%' }}
               extraData={[watchlistState.items, removingItems]}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={refreshWatchlistData}
+                  tintColor={colors.buttonPrimary}
+                  colors={[colors.buttonPrimary]}
+                />
+              }
             />
           )}
         </View>

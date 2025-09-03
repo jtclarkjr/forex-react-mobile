@@ -28,6 +28,7 @@ export default function useWatchlist() {
     availablePairs: AVAILABLE_PAIRS
   })
   const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
 
   // Load watchlist from storage on mount
   useEffect(() => {
@@ -218,9 +219,22 @@ export default function useWatchlist() {
     }
   }
 
+  const refreshWatchlistData = async () => {
+    setRefreshing(true)
+    try {
+      // Reload the watchlist from storage
+      await loadWatchlist()
+    } catch (error) {
+      console.error('Error refreshing watchlist:', error)
+    } finally {
+      setRefreshing(false)
+    }
+  }
+
   return {
     watchlistState,
     loading,
+    refreshing,
     addPair,
     addMultiplePairs,
     removePair,
@@ -228,6 +242,7 @@ export default function useWatchlist() {
     togglePairActive,
     getAvailableToAdd,
     refreshWatchlist: loadWatchlist,
+    refreshWatchlistData,
     clearStorage
   }
 }
