@@ -68,7 +68,7 @@ export const createMainScreenStyles = (colors: AppThemeColors) =>
       shadowRadius: 4
     },
     addButtonText: {
-      color: '#FFFFFF',
+      color: colors.background,
       fontSize: 16,
       fontWeight: '600'
     },

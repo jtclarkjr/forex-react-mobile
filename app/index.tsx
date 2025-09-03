@@ -192,7 +192,7 @@ export default function WatchlistScreen() {
             name="plus"
             size={16}
             color={
-              availablePairs.length === 0 ? colors.inactiveText : '#FFFFFF'
+              availablePairs.length === 0 ? colors.inactiveText : colors.background
             }
           />
           <Text

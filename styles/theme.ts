@@ -3,6 +3,7 @@ import { useColorScheme } from '@/hooks/useColorScheme'
 
 export interface AppThemeColors {
   // Core theme colors
+  background: string
   screenBackground: string
   cardBackground: string
   cardShadow: string
@@ -43,6 +44,7 @@ export const useAppTheme = () => {
 
   const colors: AppThemeColors = {
     // Core theme colors
+    background: useThemeColor({}, 'background'),
     screenBackground: useThemeColor({}, 'screenBackground'),
     cardBackground: useThemeColor({}, 'cardBackground'),
     cardShadow: useThemeColor({}, 'cardShadow'),

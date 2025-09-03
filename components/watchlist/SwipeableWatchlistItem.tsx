@@ -10,7 +10,8 @@ import Animated, {
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import WatchlistItem from './WatchlistItem'
 import type { WatchlistItem as WatchlistItemType } from '@/types/forex'
-import { styles } from '@/styles/swipeableWatchlistItem'
+import { useAppTheme } from '@/styles/theme'
+import { createSwipeableWatchlistItemStyles } from '@/styles/swipeableWatchlistItem'
 
 interface SwipeableWatchlistItemProps {
   item: WatchlistItemType
@@ -31,6 +32,10 @@ export default function SwipeableWatchlistItem({
   onDrag,
   isDragging
 }: SwipeableWatchlistItemProps) {
+  // Theme
+  const { colors } = useAppTheme()
+  const styles = createSwipeableWatchlistItemStyles(colors)
+
   const renderRightActions = (progressAnimatedValue: SharedValue<number>) => {
     const handleDelete = () => {
       onDelete(item.id)
@@ -61,7 +66,7 @@ export default function SwipeableWatchlistItem({
       <View style={styles.rightActionContainer}>
         <Animated.View style={[styles.deleteAction, animatedStyle]}>
           <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-            <FontAwesome name="trash" size={20} color="white" />
+            <FontAwesome name="trash" size={20} color={colors.background} />
             <Text style={styles.deleteText}>Delete</Text>
           </TouchableOpacity>
         </Animated.View>
