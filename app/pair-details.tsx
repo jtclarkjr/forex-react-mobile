@@ -78,7 +78,7 @@ export default function PairDetailsModal() {
 
       {/* Header */}
       <View style={styles.header}>
-        <View style={styles.headerContent}>
+        <View>
           <Text style={styles.pairTitle}>{pairString}</Text>
           <View style={styles.statusContainer}>
             <View

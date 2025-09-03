@@ -13,15 +13,8 @@ export const createPairDetailsStyles = (colors: AppThemeColors) =>
       paddingBottom: 20,
       paddingHorizontal: 20,
       flexDirection: 'row',
-      alignItems: 'center'
-    },
-    closeButton: {
-      padding: 8,
-      marginRight: 16
-    },
-    headerContent: {
-      flex: 1,
-      alignItems: 'center'
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     pairTitle: {
       fontSize: 24,
