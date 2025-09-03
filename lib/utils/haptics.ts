@@ -44,7 +44,9 @@ export const heavyHaptic = () => {
  * Use for: Successful additions, completed actions, positive confirmations
  */
 export const successHaptic = () => {
-  executeHaptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success))
+  executeHaptic(() =>
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+  )
 }
 
 /**
@@ -52,7 +54,9 @@ export const successHaptic = () => {
  * Use for: Errors, failed actions, validation failures, deletions
  */
 export const errorHaptic = () => {
-  executeHaptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error))
+  executeHaptic(() =>
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+  )
 }
 
 /**
@@ -60,7 +64,9 @@ export const errorHaptic = () => {
  * Use for: Warnings, potential issues, confirmations needed
  */
 export const warningHaptic = () => {
-  executeHaptic(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning))
+  executeHaptic(() =>
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
+  )
 }
 
 /**
