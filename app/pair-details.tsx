@@ -6,7 +6,7 @@ import { createPairDetailsStyles } from '@/styles/pairDetails'
 import { useLocalSearchParams } from 'expo-router'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import useForexStream from '@/hooks/useForexStream'
-import { getCurrencyName } from '@/utils'
+import { getCurrencyName } from '@/lib/utils'
 import type { CurrencyPair } from '@/types/forex'
 
 export default function PairDetailsModal() {

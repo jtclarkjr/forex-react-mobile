@@ -1,7 +1,7 @@
 // Import utilities and services
-import { validatePairFormat, createErrorResponse, createSuccessResponse } from './utils/forex-utils'
-import { fetchFromForexService } from './services/forex-service'
-import { createStreamingResponse } from './services/streaming-service'
+import { validatePairFormat, createErrorResponse, createSuccessResponse } from '@/lib/utils/forex-utils'
+import { fetchFromForexService, isForexServiceError } from '@/lib/services/forex-service'
+import { createStreamingResponse } from '@/lib/services/streaming-service'
 
 export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url)
@@ -21,6 +21,23 @@ export async function GET(request: Request): Promise<Response> {
     }
   } catch (error) {
     console.error('API Error:', error)
+    
+    // Handle ForexServiceError with appropriate HTTP status codes
+    if (isForexServiceError(error)) {
+      switch (error.type) {
+        case 'quota_exceeded':
+          return createErrorResponse(error.message, 429)
+        case 'service_unavailable':
+          return createErrorResponse(error.message, 503)
+        case 'connection_failed':
+          return createErrorResponse(error.message, 502)
+        case 'invalid_response':
+          return createErrorResponse(error.message, 502)
+        default:
+          return createErrorResponse(error.message, 500)
+      }
+    }
+    
     return createErrorResponse(
       error instanceof Error ? error.message : 'Unknown error',
       500

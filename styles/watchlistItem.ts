@@ -103,11 +103,22 @@ export const createWatchlistItemStyles = (colors: AppThemeColors) =>
       color: colors.textTertiary,
       textAlign: 'center'
     },
+    errorContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6
+    },
     errorText: {
       fontSize: 12,
       color: colors.textError,
       textAlign: 'center',
       fontStyle: 'italic'
+    },
+    retryButton: {
+      padding: 4,
+      borderRadius: 10,
+      backgroundColor: colors.buttonSecondary
     },
     statusContainer: {
       flexDirection: 'row',

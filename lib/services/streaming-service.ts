@@ -1,6 +1,6 @@
 import type { ForexRate, ApiResponse, ForexServiceResponse } from '@/types/forex'
 import { FOREX_SERVICE_CONFIG } from '@/constants/Config'
-import { formatForexResponse, formatPairForApi } from '../utils/forex-utils'
+import { formatForexResponse, formatPairForApi } from '@/lib/utils/forex-utils'
 
 const FOREX_SERVICE_URL = FOREX_SERVICE_CONFIG.BASE_URL
 const API_TOKEN = FOREX_SERVICE_CONFIG.API_TOKEN

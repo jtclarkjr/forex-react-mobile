@@ -140,7 +140,33 @@ export default function WatchlistItem({
 
     // Show error message when there's an error and item is active
     if (error && item.isActive) {
-      return <Text style={styles.errorText}>Error loading data</Text>
+      let errorText = 'Error loading data'
+      let showRetry = false
+      
+      if (error.includes('quota')) {
+        errorText = 'Quota exceeded'
+        showRetry = false // Will auto-retry with longer interval
+      } else if (error.includes('network') || error.includes('timeout')) {
+        errorText = 'Connection issue'
+        showRetry = true
+      } else if (error.includes('unavailable')) {
+        errorText = 'Service offline'
+        showRetry = true
+      }
+      
+      return (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{errorText}</Text>
+          {showRetry && forexStream?.reconnect && (
+            <TouchableOpacity 
+              onPress={forexStream.reconnect}
+              style={styles.retryButton}
+            >
+              <FontAwesome name="refresh" size={12} color={colors.buttonPrimary} />
+            </TouchableOpacity>
+          )}
+        </View>
+      )
     }
 
     // Default fallback: show placeholder
