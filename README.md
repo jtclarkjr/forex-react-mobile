@@ -9,7 +9,7 @@ watchlist with real-time exchange rates and detailed pair information.
   watchlist with bulk selection support
 - **Real-time Forex Data**: Live streaming of currency exchange rates with
   automatic updates every 2 seconds
-- **Smooth Animations**: 
+- **Smooth Animations**:
   - Animated item removal with slide-left, fade, and height collapse effects
   - Smooth drag & drop reordering
   - Swipe-to-delete with animated reveal
@@ -19,8 +19,8 @@ watchlist with real-time exchange rates and detailed pair information.
   - Tap to view detailed information
 - **Detailed Pair View**: iOS modal with comprehensive forex data including
   bid/ask spread, currency information, and technical details
-- **Enhanced Error Handling**: Robust error management with retry mechanisms
-  and user-friendly error messages
+- **Enhanced Error Handling**: Robust error management with retry mechanisms and
+  user-friendly error messages
 - **Live Connection Status**: Visual indicators showing real-time connection
   status with color-coded states
 - **Persistent Storage**: Your watchlist configuration is saved locally with
@@ -190,7 +190,8 @@ bun test         # Run tests with Jest
 
 ## Development Tools
 
-- **Oxlint**: Fast JavaScript/TypeScript linter with auto-fixing (optimized for React Native/Expo)
+- **Oxlint**: Fast JavaScript/TypeScript linter with auto-fixing (optimized for
+  React Native/Expo)
 - **Prettier**: Code formatter for consistent styling
 - **Jest**: Testing framework with Expo preset
 - **TypeScript**: Static type checking with strict mode
@@ -201,36 +202,32 @@ bun test         # Run tests with Jest
 ## Architecture Highlights
 
 ### Service Layer
-- **Forex Service**: Handles external API communication with comprehensive error handling
+
+- **Forex Service**: Handles external API communication with comprehensive error
+  handling
 - **Streaming Service**: Manages Server-Sent Events for real-time data
 - **Utility Functions**: Centralized validation and formatting logic
 
 ### Error Handling
+
 - **Typed Errors**: Custom error types with specific handling strategies
 - **Retry Logic**: Automatic retry with backoff for transient failures
 - **User Feedback**: Clear error messages and retry options
 - **Graceful Degradation**: Fallback behaviors for network issues
 
 ### Animation System
+
 - **Reanimated Integration**: Smooth 60fps animations using native drivers
 - **Removal Animations**: Multi-stage animations (slide, fade, collapse)
 - **Gesture Animations**: Smooth swipe-to-delete and drag-to-reorder
 - **State Management**: Coordinated animation states with React state
 
 ### Data Management
+
 - **AsyncStorage**: Persistent watchlist storage with migration support
 - **Real-time Updates**: Live data streaming with connection status tracking
 - **Bulk Operations**: Efficient multi-item selection and operations
 - **Type Safety**: Comprehensive TypeScript coverage
-
-## Recent Improvements
-
-- **Removed unused POST endpoint** - Cleaned up API routes for better maintainability
-- **Enhanced animations** - Added smooth slide-left removal animations
-- **Improved error handling** - Better user experience with retry mechanisms
-- **Bulk operations** - Multi-select functionality for adding pairs
-- **Code organization** - Restructured into `lib/` folder with services and utilities
-- **Linting optimization** - Updated oxlint config for React Native/Expo specifics
 
 ## Development Notes
 

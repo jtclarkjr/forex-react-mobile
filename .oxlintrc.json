@@ -6,9 +6,5 @@
     "react/jsx-no-undef": "deny",
     "no-explicit-any": "deny"
   },
-  "ignorePatterns": [
-    "**/.expo/**",
-    "**/coverage/**",
-    "node_modules/"
-  ]
+  "ignorePatterns": ["**/.expo/**", "**/coverage/**", "node_modules/"]
 }
