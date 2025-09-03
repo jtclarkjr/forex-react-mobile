@@ -15,7 +15,7 @@ export const createSwipeableWatchlistItemStyles = (colors: AppThemeColors) =>
       backgroundColor: colors.textError,
       justifyContent: 'center',
       alignItems: 'center',
-      width: 80,
+      width: 96,
       height: '100%',
       borderTopRightRadius: 8,
       borderBottomRightRadius: 8

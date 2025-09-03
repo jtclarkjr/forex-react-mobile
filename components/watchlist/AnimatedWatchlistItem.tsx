@@ -54,16 +54,21 @@ export default function AnimatedWatchlistItem({
         })
       )
     }
-  }, [isRemoving, item.id, onRemovalComplete, opacity, translateX, scale, height])
+  }, [
+    isRemoving,
+    item.id,
+    onRemovalComplete,
+    opacity,
+    translateX,
+    scale,
+    height
+  ])
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
     height: height.value,
-    overflow: 'hidden',
-    transform: [
-      { translateX: translateX.value },
-      { scale: scale.value }
-    ]
+    marginVertical: 4,
+    transform: [{ translateX: translateX.value }, { scale: scale.value }]
   }))
 
   const handleDelete = (id: string) => {

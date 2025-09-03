@@ -109,12 +109,12 @@ export default function WatchlistScreen() {
 
   const handleAnimatedDelete = (itemId: string) => {
     // Start the removal animation
-    setRemovingItems(prev => new Set([...prev, itemId]))
+    setRemovingItems((prev) => new Set([...prev, itemId]))
   }
 
   const handleRemovalComplete = (itemId: string) => {
     // Remove from removing set and actually delete from watchlist
-    setRemovingItems(prev => {
+    setRemovingItems((prev) => {
       const newSet = new Set(prev)
       newSet.delete(itemId)
       return newSet
