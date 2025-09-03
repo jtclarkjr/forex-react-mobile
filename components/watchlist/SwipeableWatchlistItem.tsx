@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 import Animated, {
@@ -10,6 +10,7 @@ import Animated, {
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import WatchlistItem from './WatchlistItem'
 import type { WatchlistItem as WatchlistItemType } from '@/types/forex'
+import { styles } from '@/styles/swipeableWatchlistItem'
 
 interface SwipeableWatchlistItemProps {
   item: WatchlistItemType
@@ -89,35 +90,3 @@ export default function SwipeableWatchlistItem({
     </GestureHandlerRootView>
   )
 }
-
-const styles = StyleSheet.create({
-  rightActionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    backgroundColor: 'transparent',
-    width: 96, // 80 + 16 (right margin)
-    paddingRight: 16
-  },
-  deleteAction: {
-    backgroundColor: '#FF3B30',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 80,
-    height: '100%',
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8
-  },
-  deleteButton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%'
-  },
-  deleteText: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: '600',
-    marginTop: 4
-  }
-})
