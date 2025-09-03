@@ -11,7 +11,7 @@ import {
 import { Text } from '@/components/common/Themed'
 import { useAppTheme } from '@/styles/theme'
 import { createMainScreenStyles } from '@/styles/mainScreen'
-import SwipeableWatchlistItem from '@/components/watchlist/SwipeableWatchlistItem'
+import AnimatedWatchlistItem from '@/components/watchlist/AnimatedWatchlistItem'
 import DraggableFlatList, {
   ScaleDecorator,
   RenderItemParams
@@ -34,6 +34,7 @@ export default function WatchlistScreen() {
   const [showAddModal, setShowAddModal] = useState(false)
   const [selectedPairsToAdd, setSelectedPairsToAdd] = useState<string[]>([])
   const [isAdding, setIsAdding] = useState(false)
+  const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
 
   const handleOpenModal = () => {
     setSelectedPairsToAdd([])
@@ -106,6 +107,21 @@ export default function WatchlistScreen() {
     }
   }
 
+  const handleAnimatedDelete = (itemId: string) => {
+    // Start the removal animation
+    setRemovingItems(prev => new Set([...prev, itemId]))
+  }
+
+  const handleRemovalComplete = (itemId: string) => {
+    // Remove from removing set and actually delete from watchlist
+    setRemovingItems(prev => {
+      const newSet = new Set(prev)
+      newSet.delete(itemId)
+      return newSet
+    })
+    removePair(itemId)
+  }
+
   const handleDelete = (itemId: string) => {
     Alert.alert(
       'Remove Pair',
@@ -115,7 +131,7 @@ export default function WatchlistScreen() {
         {
           text: 'Remove',
           style: 'destructive',
-          onPress: () => removePair(itemId)
+          onPress: () => handleAnimatedDelete(itemId)
         }
       ]
     )
@@ -136,7 +152,7 @@ export default function WatchlistScreen() {
 
     return (
       <ScaleDecorator>
-        <SwipeableWatchlistItem
+        <AnimatedWatchlistItem
           item={item}
           index={watchlistState.items.findIndex((i) => i.id === item.id)}
           onToggleActive={() => {}} // Disabled for now
@@ -144,6 +160,8 @@ export default function WatchlistScreen() {
           onDelete={handleDelete}
           onDrag={drag}
           isDragging={isActive}
+          isRemoving={removingItems.has(item.id)}
+          onRemovalComplete={handleRemovalComplete}
         />
       </ScaleDecorator>
     )
@@ -192,7 +210,9 @@ export default function WatchlistScreen() {
             name="plus"
             size={16}
             color={
-              availablePairs.length === 0 ? colors.inactiveText : colors.background
+              availablePairs.length === 0
+                ? colors.inactiveText
+                : colors.background
             }
           />
           <Text
@@ -222,7 +242,7 @@ export default function WatchlistScreen() {
             keyExtractor={(item) => item?.id || `${Math.random()}`}
             renderItem={renderDragItem}
             contentContainerStyle={styles.listContent}
-            extraData={watchlistState.items}
+            extraData={[watchlistState.items, removingItems]}
           />
         )}
       </View>

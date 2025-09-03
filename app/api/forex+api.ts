@@ -1,6 +1,13 @@
 // Import utilities and services
-import { validatePairFormat, createErrorResponse, createSuccessResponse } from '@/lib/utils/forex-utils'
-import { fetchFromForexService, isForexServiceError } from '@/lib/services/forex-service'
+import {
+  validatePairFormat,
+  createErrorResponse,
+  createSuccessResponse
+} from '@/lib/utils/forex-utils'
+import {
+  fetchFromForexService,
+  isForexServiceError
+} from '@/lib/services/forex-service'
 import { createStreamingResponse } from '@/lib/services/streaming-service'
 
 export async function GET(request: Request): Promise<Response> {
@@ -9,7 +16,9 @@ export async function GET(request: Request): Promise<Response> {
   const isStream = url.searchParams.get('stream') === 'true'
 
   if (!validatePairFormat(pair)) {
-    return createErrorResponse(`Invalid currency pair format: ${pair}. Use format like USD/JPY`)
+    return createErrorResponse(
+      `Invalid currency pair format: ${pair}. Use format like USD/JPY`
+    )
   }
 
   try {
@@ -21,7 +30,7 @@ export async function GET(request: Request): Promise<Response> {
     }
   } catch (error) {
     console.error('API Error:', error)
-    
+
     // Handle ForexServiceError with appropriate HTTP status codes
     if (isForexServiceError(error)) {
       switch (error.type) {
@@ -37,7 +46,7 @@ export async function GET(request: Request): Promise<Response> {
           return createErrorResponse(error.message, 500)
       }
     }
-    
+
     return createErrorResponse(
       error instanceof Error ? error.message : 'Unknown error',
       500
@@ -45,22 +54,3 @@ export async function GET(request: Request): Promise<Response> {
   }
 }
 
-export async function POST(request: Request): Promise<Response> {
-  try {
-    const body = await request.json()
-    const { pair } = body
-
-    if (!pair || !validatePairFormat(pair)) {
-      return createErrorResponse('Invalid currency pair format. Use format like USD/JPY')
-    }
-
-    const rate = await fetchFromForexService(pair)
-    return createSuccessResponse(rate)
-  } catch (err) {
-    console.error('Error in POST request:', err)
-    return createErrorResponse(
-      err instanceof Error ? err.message : 'Unknown error',
-      500
-    )
-  }
-}

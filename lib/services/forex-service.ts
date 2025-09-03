@@ -6,7 +6,12 @@ const FOREX_SERVICE_URL = FOREX_SERVICE_CONFIG.BASE_URL
 const API_TOKEN = FOREX_SERVICE_CONFIG.API_TOKEN
 
 // Enhanced error types for better error handling
-export type ForexServiceErrorType = 'quota_exceeded' | 'connection_failed' | 'service_unavailable' | 'invalid_response' | 'unknown'
+export type ForexServiceErrorType =
+  | 'quota_exceeded'
+  | 'connection_failed'
+  | 'service_unavailable'
+  | 'invalid_response'
+  | 'unknown'
 
 export interface ForexServiceError {
   message: string
@@ -31,31 +36,39 @@ export const createForexServiceError = (
 })
 
 // Type guard to check if error is ForexServiceError
-export const isForexServiceError = (error: unknown): error is ForexServiceError => {
-  return typeof error === 'object' && error !== null && 'isForexServiceError' in error
+export const isForexServiceError = (
+  error: unknown
+): error is ForexServiceError => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'isForexServiceError' in error
+  )
 }
 
 // Fetches forex rates from external service with enhanced error handling
-export const fetchFromForexService = async (pair: string): Promise<ForexRate> => {
+export const fetchFromForexService = async (
+  pair: string
+): Promise<ForexRate> => {
   const pairFormatted = formatPairForApi(pair)
-  
+
   let timeoutId: ReturnType<typeof setTimeout> | null = null
-  
+
   try {
     // Create AbortController for timeout
     const controller = new AbortController()
     timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
-    
+
     const response = await fetch(
       `${FOREX_SERVICE_URL}/rates?pair=${pairFormatted}`,
       {
         headers: {
-          'token': API_TOKEN || ''
+          token: API_TOKEN || ''
         },
         signal: controller.signal
       }
     )
-    
+
     // Clear timeout if request completes successfully
     clearTimeout(timeoutId)
     timeoutId = null
@@ -63,7 +76,7 @@ export const fetchFromForexService = async (pair: string): Promise<ForexRate> =>
     // Handle different HTTP status codes
     if (!response.ok) {
       const errorText = await response.text().catch(() => 'Unknown error')
-      
+
       switch (response.status) {
         case 429:
           // Rate limit/quota exceeded
@@ -93,12 +106,15 @@ export const fetchFromForexService = async (pair: string): Promise<ForexRate> =>
     }
 
     let data: ForexServiceResponse[]
-    
+
     try {
       const responseText = await response.text()
-      
+
       // Check if the response contains quota error messages
-      if (responseText.includes('Quota reached') || responseText.includes('QuotaReached')) {
+      if (
+        responseText.includes('Quota reached') ||
+        responseText.includes('QuotaReached')
+      ) {
         throw createForexServiceError(
           'API quota exceeded. Please try again later.',
           'quota_exceeded',
@@ -106,7 +122,7 @@ export const fetchFromForexService = async (pair: string): Promise<ForexRate> =>
           60
         )
       }
-      
+
       data = JSON.parse(responseText)
     } catch (jsonError) {
       if (isForexServiceError(jsonError)) {
@@ -117,7 +133,7 @@ export const fetchFromForexService = async (pair: string): Promise<ForexRate> =>
         'invalid_response'
       )
     }
-    
+
     if (!data || data.length === 0) {
       throw createForexServiceError(
         'No data received from forex service',
@@ -126,15 +142,17 @@ export const fetchFromForexService = async (pair: string): Promise<ForexRate> =>
     }
 
     const firstItem = data[0]
-    
+
     // Validate that the response has required properties
-    if (!firstItem || 
-        typeof firstItem.bid !== 'number' ||
-        typeof firstItem.ask !== 'number' ||
-        typeof firstItem.price !== 'number' ||
-        !firstItem.from || 
-        !firstItem.to ||
-        !firstItem.time_stamp) {
+    if (
+      !firstItem ||
+      typeof firstItem.bid !== 'number' ||
+      typeof firstItem.ask !== 'number' ||
+      typeof firstItem.price !== 'number' ||
+      !firstItem.from ||
+      !firstItem.to ||
+      !firstItem.time_stamp
+    ) {
       throw createForexServiceError(
         'Invalid response format from forex service',
         'invalid_response'
@@ -147,21 +165,21 @@ export const fetchFromForexService = async (pair: string): Promise<ForexRate> =>
     if (isForexServiceError(error)) {
       throw error
     }
-    
+
     if (error instanceof TypeError && error.message.includes('fetch failed')) {
       throw createForexServiceError(
         'Unable to connect to forex service. Please check your internet connection.',
         'connection_failed'
       )
     }
-    
+
     if (error instanceof Error && error.name === 'AbortError') {
       throw createForexServiceError(
         'Request timeout. Please try again.',
         'connection_failed'
       )
     }
-    
+
     // Fallback for unexpected errors
     throw createForexServiceError(
       error instanceof Error ? error.message : 'Unknown error occurred',

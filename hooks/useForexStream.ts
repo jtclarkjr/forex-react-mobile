@@ -35,7 +35,10 @@ export default function useForexStream(currencyPair: CurrencyPair) {
     }
   }, [])
 
-  const parseErrorFromResponse = (response: Response, result: ApiResponse<ForexRate>): ErrorState => {
+  const parseErrorFromResponse = (
+    response: Response,
+    result: ApiResponse<ForexRate>
+  ): ErrorState => {
     switch (response.status) {
       case 429:
         return {
@@ -69,18 +72,18 @@ export default function useForexStream(currencyPair: CurrencyPair) {
       // Create AbortController for timeout
       const controller = new AbortController()
       timeoutId = setTimeout(() => controller.abort(), 8000) // 8 second timeout
-      
+
       const response = await fetch(
         `/api/forex?pair=${encodeURIComponent(pairString)}`,
         {
           signal: controller.signal
         }
       )
-      
+
       // Clear timeout if request completes successfully
       clearTimeout(timeoutId)
       timeoutId = null
-      
+
       const result: ApiResponse<ForexRate> = await response.json()
 
       if (!mountedRef.current) return
@@ -101,7 +104,7 @@ export default function useForexStream(currencyPair: CurrencyPair) {
           error: errorInfo.message,
           connectionStatus: 'disconnected'
         }))
-        
+
         // Handle quota exceeded by increasing interval
         if (errorInfo.type === 'quota' && intervalRef.current) {
           cleanup()
@@ -115,7 +118,7 @@ export default function useForexStream(currencyPair: CurrencyPair) {
 
       let errorMessage = 'Failed to fetch data'
       let errorType: ErrorState['type'] = 'unknown'
-      
+
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = 'Request timeout. Check your connection.'

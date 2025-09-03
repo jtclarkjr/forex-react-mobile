@@ -142,7 +142,7 @@ export default function WatchlistItem({
     if (error && item.isActive) {
       let errorText = 'Error loading data'
       let showRetry = false
-      
+
       if (error.includes('quota')) {
         errorText = 'Quota exceeded'
         showRetry = false // Will auto-retry with longer interval
@@ -153,16 +153,20 @@ export default function WatchlistItem({
         errorText = 'Service offline'
         showRetry = true
       }
-      
+
       return (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{errorText}</Text>
           {showRetry && forexStream?.reconnect && (
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={forexStream.reconnect}
               style={styles.retryButton}
             >
-              <FontAwesome name="refresh" size={12} color={colors.buttonPrimary} />
+              <FontAwesome
+                name="refresh"
+                size={12}
+                color={colors.buttonPrimary}
+              />
             </TouchableOpacity>
           )}
         </View>

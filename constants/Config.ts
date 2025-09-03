@@ -10,7 +10,7 @@ export const SUPPORTED_PAIRS = [
   'USD/JPY',
   'EUR/USD',
   'GBP/USD',
-  'AUD/USD', 
+  'AUD/USD',
   'USD/CAD',
   'USD/CHF',
   'USD/CNY',
@@ -18,4 +18,4 @@ export const SUPPORTED_PAIRS = [
   'GBP/JPY'
 ] as const
 
-export type SupportedPair = typeof SUPPORTED_PAIRS[number]
+export type SupportedPair = (typeof SUPPORTED_PAIRS)[number]
