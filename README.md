@@ -1,7 +1,8 @@
 # Forex Watchlist App
 
-A mobile-first React Native Expo application that provides a customizable forex
-watchlist with real-time exchange rates and detailed pair information.
+A mobile-first (iOS and Web Safari focused) React Native Expo application that
+provides a customizable forex watchlist with real-time exchange rates and
+detailed pair information.
 
 ## Features
 

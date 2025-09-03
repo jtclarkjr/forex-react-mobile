@@ -10,7 +10,7 @@ export const createMainScreenStyles = (colors: AppThemeColors) =>
     },
     container: {
       flex: 1,
-      backgroundColor: colors.screenBackground,
+      backgroundColor: colors.screenBackground
     },
     loadingContainer: {
       flex: 1,
@@ -24,7 +24,6 @@ export const createMainScreenStyles = (colors: AppThemeColors) =>
       color: colors.textSecondary
     },
     header: {
-  
       paddingTop: 10,
       alignItems: 'center',
       backgroundColor: 'transparent'
@@ -41,32 +40,31 @@ export const createMainScreenStyles = (colors: AppThemeColors) =>
       alignItems: 'center',
       paddingHorizontal: 16,
       paddingBottom: 16,
-      paddingTop: 8,
+      paddingTop: 8
     },
     toolbarLeading: {
       flex: 1,
-      alignItems: 'flex-start',
+      alignItems: 'flex-start'
     },
     toolbarTitle: {
       flex: 2,
-      alignItems: 'center',
+      alignItems: 'center'
     },
     toolbarTrailing: {
       flex: 1,
-      alignItems: 'flex-end',
+      alignItems: 'flex-end'
     },
     toolbarAction: {
       fontSize: 17,
       fontWeight: '600',
-      color: colors.buttonPrimary,
+      color: colors.buttonPrimary
     },
     toolbarActionDisabled: {
-      color: colors.inactiveText,
+      color: colors.inactiveText
     },
     emptyContainer: {
-     
       justifyContent: 'center',
-      alignItems: 'center',
+      alignItems: 'center'
     },
     emptyText: {
       fontSize: 20,

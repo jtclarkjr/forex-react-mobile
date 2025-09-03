@@ -17,8 +17,12 @@ interface UseAppStateReturn {
   isInactive: boolean
 }
 
-export default function useAppState(config?: UseAppStateConfig): UseAppStateReturn {
-  const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState)
+export default function useAppState(
+  config?: UseAppStateConfig
+): UseAppStateReturn {
+  const [appState, setAppState] = useState<AppStateStatus>(
+    AppState.currentState
+  )
   const appStateRef = useRef(AppState.currentState)
   const configRef = useRef(config)
 
@@ -40,17 +44,26 @@ export default function useAppState(config?: UseAppStateConfig): UseAppStateRetu
       currentConfig?.onChange?.(nextAppState)
 
       // Handle foreground transition
-      if (previousAppState.match(/inactive|background/) && nextAppState === 'active') {
+      if (
+        previousAppState.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
         currentConfig?.onForeground?.()
       }
 
       // Handle background transition
-      if (previousAppState === 'active' && nextAppState.match(/inactive|background/)) {
+      if (
+        previousAppState === 'active' &&
+        nextAppState.match(/inactive|background/)
+      ) {
         currentConfig?.onBackground?.()
       }
     }
 
-    const subscription = AppState.addEventListener('change', handleAppStateChange)
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange
+    )
 
     return () => subscription?.remove()
   }, [])

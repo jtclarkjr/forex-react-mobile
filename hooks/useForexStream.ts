@@ -172,16 +172,16 @@ export default function useForexStream(currencyPair: CurrencyPair) {
 
   const resumePolling = useCallback(() => {
     if (!mountedRef.current || !isPausedRef.current) return
-    
+
     isPausedRef.current = false
     setState((prev) => ({
       ...prev,
       connectionStatus: 'connecting'
     }))
-    
+
     // Fetch fresh data when resuming
     fetchForexData()
-    
+
     // Restart polling
     intervalRef.current = setInterval(fetchForexData, FOREX_UPDATE_INTERVAL)
   }, [fetchForexData])
@@ -204,7 +204,10 @@ export default function useForexStream(currencyPair: CurrencyPair) {
       }
     }
 
-    const subscription = AppState.addEventListener('change', handleAppStateChange)
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange
+    )
     return () => subscription?.remove()
   }, [pausePolling, resumePolling])
 
