@@ -6,18 +6,25 @@ watchlist with real-time exchange rates and detailed pair information.
 ## Features
 
 - **Customizable Watchlist**: Add/remove currency pairs to your personal
-  watchlist
+  watchlist with bulk selection support
 - **Real-time Forex Data**: Live streaming of currency exchange rates with
   automatic updates every 2 seconds
+- **Smooth Animations**: 
+  - Animated item removal with slide-left, fade, and height collapse effects
+  - Smooth drag & drop reordering
+  - Swipe-to-delete with animated reveal
 - **iOS-Style Interactions**:
   - Drag & drop to reorder pairs
-  - Swipe to delete pairs
+  - Swipe to delete pairs with confirmation dialogs
   - Tap to view detailed information
 - **Detailed Pair View**: iOS modal with comprehensive forex data including
   bid/ask spread, currency information, and technical details
+- **Enhanced Error Handling**: Robust error management with retry mechanisms
+  and user-friendly error messages
 - **Live Connection Status**: Visual indicators showing real-time connection
-  status
-- **Persistent Storage**: Your watchlist configuration is saved locally
+  status with color-coded states
+- **Persistent Storage**: Your watchlist configuration is saved locally with
+  automatic migration support
 - **Mobile-Optimized**: Single-page design focused on core functionality
 
 ## Technical Stack
@@ -98,16 +105,17 @@ bun start
 ```
 ├── app/
 │   ├── api/
-│   │   └── forex+api.ts          # API route for forex data
-│   ├── index.tsx                 # Main watchlist screen
+│   │   └── forex+api.ts          # API route for forex data (GET only)
+│   ├── index.tsx                 # Main watchlist screen with animations
 │   ├── pair-details.tsx          # Pair details modal
 │   ├── _layout.tsx               # Root layout
 │   ├── +html.tsx                 # HTML document wrapper
 │   └── +not-found.tsx            # 404 page
 ├── components/
 │   ├── watchlist/
-│   │   ├── WatchlistItem.tsx     # Individual watchlist item
+│   │   ├── AnimatedWatchlistItem.tsx # Animated wrapper with removal effects
 │   │   ├── SwipeableWatchlistItem.tsx # Swipeable wrapper
+│   │   ├── WatchlistItem.tsx     # Individual watchlist item
 │   │   └── index.ts              # Watchlist exports
 │   ├── common/
 │   │   ├── Themed.tsx            # Theme-aware components
@@ -116,26 +124,33 @@ bun start
 │   │   └── index.ts              # Common component exports
 │   └── index.ts                  # Main component exports
 ├── constants/
+│   ├── Config.ts                 # Configuration constants
 │   ├── Forex.ts                  # Forex-related constants
 │   └── Colors.ts                 # Theme color definitions
 ├── hooks/
-│   ├── useForexStream.ts         # Custom hook for streaming data
-│   ├── useWatchlist.ts           # Watchlist management hook
+│   ├── useForexStream.ts         # Enhanced streaming with error handling
+│   ├── useWatchlist.ts           # Watchlist management with bulk operations
 │   ├── useColorScheme.ts         # Color scheme hook
 │   ├── useColorScheme.web.ts     # Web-specific color scheme hook
 │   ├── useClientOnlyValue.ts     # Client-only value hook
 │   └── useClientOnlyValue.web.ts # Web-specific client-only hook
+├── lib/
+│   ├── services/
+│   │   ├── forex-service.ts      # External forex API service
+│   │   └── streaming-service.ts  # Server-sent events streaming
+│   └── utils/
+│       ├── forex-utils.ts        # Forex-specific utilities
+│       ├── currency.ts           # Currency name mappings
+│       └── index.ts              # Utility exports
 ├── styles/
 │   ├── index.ts                  # Style exports
-│   ├── theme.ts                  # Theme definitions
+│   ├── theme.ts                  # Enhanced theme definitions
 │   ├── mainScreen.ts             # Main screen styles
 │   ├── pairDetails.ts            # Pair details modal styles
-│   └── watchlistItem.ts          # Watchlist item styles
+│   ├── watchlistItem.ts          # Watchlist item styles
+│   └── swipeableWatchlistItem.ts # Swipeable item styles
 ├── types/
-│   └── forex.ts                  # TypeScript type definitions
-├── utils/
-│   ├── index.ts                  # Utility exports
-│   └── currency.ts               # Currency-related utilities
+│   └── forex.ts                  # Comprehensive TypeScript definitions
 └── README.md
 ```
 
@@ -175,20 +190,58 @@ bun test         # Run tests with Jest
 
 ## Development Tools
 
-- **Oxlint**: Fast JavaScript/TypeScript linter with auto-fixing
+- **Oxlint**: Fast JavaScript/TypeScript linter with auto-fixing (optimized for React Native/Expo)
 - **Prettier**: Code formatter for consistent styling
 - **Jest**: Testing framework with Expo preset
-- **TypeScript**: Static type checking
+- **TypeScript**: Static type checking with strict mode
 - **Expo Router**: File-based routing system
+- **React Native Reanimated**: High-performance animations
+- **React Native Gesture Handler**: Native gesture recognition
+
+## Architecture Highlights
+
+### Service Layer
+- **Forex Service**: Handles external API communication with comprehensive error handling
+- **Streaming Service**: Manages Server-Sent Events for real-time data
+- **Utility Functions**: Centralized validation and formatting logic
+
+### Error Handling
+- **Typed Errors**: Custom error types with specific handling strategies
+- **Retry Logic**: Automatic retry with backoff for transient failures
+- **User Feedback**: Clear error messages and retry options
+- **Graceful Degradation**: Fallback behaviors for network issues
+
+### Animation System
+- **Reanimated Integration**: Smooth 60fps animations using native drivers
+- **Removal Animations**: Multi-stage animations (slide, fade, collapse)
+- **Gesture Animations**: Smooth swipe-to-delete and drag-to-reorder
+- **State Management**: Coordinated animation states with React state
+
+### Data Management
+- **AsyncStorage**: Persistent watchlist storage with migration support
+- **Real-time Updates**: Live data streaming with connection status tracking
+- **Bulk Operations**: Efficient multi-item selection and operations
+- **Type Safety**: Comprehensive TypeScript coverage
+
+## Recent Improvements
+
+- **Removed unused POST endpoint** - Cleaned up API routes for better maintainability
+- **Enhanced animations** - Added smooth slide-left removal animations
+- **Improved error handling** - Better user experience with retry mechanisms
+- **Bulk operations** - Multi-select functionality for adding pairs
+- **Code organization** - Restructured into `lib/` folder with services and utilities
+- **Linting optimization** - Updated oxlint config for React Native/Expo specifics
 
 ## Development Notes
 
-- The app uses simulated forex data with realistic volatility
-- Rates update every 2 seconds to simulate real-time streaming
-- Includes proper error handling and connection status management
-- TypeScript is used throughout for type safety
+- The app uses external forex data via Docker containerized service
+- Rates update every 2 seconds with intelligent error handling
+- Includes comprehensive connection status management
+- TypeScript is used throughout with strict type checking
 - Follows React Native best practices and Expo Router conventions
 - Code is automatically linted and formatted with oxlint and Prettier
+- Animation performance is optimized using native drivers
+- Storage includes automatic data migration for version compatibility
 
 ## License
 
