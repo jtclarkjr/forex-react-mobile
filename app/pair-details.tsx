@@ -7,6 +7,7 @@ import { useLocalSearchParams } from 'expo-router'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import useForexStream from '@/hooks/useForexStream'
 import { getCurrencyName } from '@/lib/utils'
+import { getConnectionStatusInfo } from '@/constants/Forex'
 import type { CurrencyPair } from '@/types/forex'
 
 export default function PairDetailsModal() {
@@ -44,31 +45,12 @@ export default function PairDetailsModal() {
   }
 
   const getConnectionStatusColor = () => {
-    switch (connectionStatus) {
-      case 'connected':
-        return colors.statusConnected
-      case 'connecting':
-        return colors.statusConnecting
-      case 'disconnected':
-        return colors.statusDisconnected
-      default:
-        return colors.statusDefault
-    }
+    return getConnectionStatusInfo(connectionStatus, colors)?.color
   }
 
   const getConnectionStatusText = () => {
-    switch (connectionStatus) {
-      case 'connected':
-        return 'Live Data'
-      case 'connecting':
-        return 'Connecting...'
-      case 'disconnected':
-        return 'Disconnected'
-      default:
-        return 'Unknown'
-    }
+    return getConnectionStatusInfo(connectionStatus, colors)?.text
   }
-
   return (
     <View style={styles.container}>
       <StatusBar

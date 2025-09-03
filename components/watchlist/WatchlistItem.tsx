@@ -4,6 +4,7 @@ import { Text } from '@/components/common/Themed'
 import { useAppTheme } from '@/styles/theme'
 import { createWatchlistItemStyles } from '@/styles/watchlistItem'
 import useForexStream from '@/hooks/useForexStream'
+import { getConnectionStatusInfo } from '@/constants/Forex'
 import type {
   WatchlistItem as WatchlistItemType,
   CurrencyPair
@@ -63,7 +64,7 @@ export default function WatchlistItem({
   const data = forexStream?.data
   const loading = forexStream?.loading
   const error = forexStream?.error
-  const connectionStatus = forexStream?.connectionStatus
+  const connectionStatus = forexStream?.connectionStatus || 'disconnected'
 
   const formatPrice = (price: number) => {
     return price.toFixed(5)
@@ -71,32 +72,17 @@ export default function WatchlistItem({
 
   const getConnectionStatusColor = () => {
     if (!item.isActive) return colors.inactiveText
-    switch (connectionStatus) {
-      case 'connected':
-        return colors.statusConnected
-      case 'connecting':
-        return colors.statusConnecting
-      case 'disconnected':
-        return colors.statusDisconnected
-      default:
-        return colors.statusDefault
-    }
+    return getConnectionStatusInfo(connectionStatus, colors, {
+      shortText: true
+    })?.color
   }
 
   const getConnectionStatusText = () => {
     if (!item.isActive) return ''
-    switch (connectionStatus) {
-      case 'connected':
-        return 'Live'
-      case 'connecting':
-        return 'Connecting'
-      case 'disconnected':
-        return 'Disconnected'
-      default:
-        return ''
-    }
+    return getConnectionStatusInfo(connectionStatus, colors, {
+      shortText: true
+    })?.text
   }
-
   const renderRateDisplay = () => {
     // Show loading indicator when loading and no data available
     if (loading && !data) {
