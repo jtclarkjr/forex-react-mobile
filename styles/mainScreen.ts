@@ -1,29 +1,22 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import type { AppThemeColors } from './theme'
-
-const { width } = Dimensions.get('window')
-const isWeb = Platform.OS === 'web'
-const isLargeScreen = width > 768
 
 export const createMainScreenStyles = (colors: AppThemeColors) =>
   StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: colors.screenBackground,
+      height: '100%'
+    },
     container: {
       flex: 1,
       backgroundColor: colors.screenBackground,
-      paddingTop: Platform.OS === 'ios' ? 50 : 25,
-      ...(isWeb &&
-        isLargeScreen && {
-          maxWidth: 1200,
-          alignSelf: 'center',
-          width: '100%'
-        })
     },
     loadingContainer: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: colors.screenBackground,
-      paddingTop: Platform.OS === 'ios' ? 50 : 25
+      backgroundColor: colors.screenBackground
     },
     loadingText: {
       marginTop: 16,
@@ -31,7 +24,7 @@ export const createMainScreenStyles = (colors: AppThemeColors) =>
       color: colors.textSecondary
     },
     header: {
-      padding: 20,
+  
       paddingTop: 10,
       alignItems: 'center',
       backgroundColor: 'transparent'
@@ -42,56 +35,38 @@ export const createMainScreenStyles = (colors: AppThemeColors) =>
       color: colors.textColor,
       marginBottom: 8
     },
-    subtitle: {
-      fontSize: 16,
-      color: colors.textSecondary,
-      textAlign: 'center',
-      lineHeight: 22
-    },
-    actions: {
-      paddingHorizontal: 16,
-      paddingBottom: 16
-    },
-    addButton: {
+    toolbar: {
       flexDirection: 'row',
+      justifyContent: 'space-between',
       alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: colors.buttonPrimary,
-      paddingVertical: 14,
-      paddingHorizontal: 24,
-      borderRadius: 12,
-      gap: 8,
-      elevation: 3,
-      shadowColor: colors.buttonPrimary,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4
+      paddingHorizontal: 16,
+      paddingBottom: 16,
+      paddingTop: 8,
     },
-    addButtonText: {
-      color: colors.background,
-      fontSize: 16,
-      fontWeight: '600'
+    toolbarLeading: {
+      flex: 1,
+      alignItems: 'flex-start',
     },
-    addButtonDisabled: {
-      backgroundColor: colors.buttonDisabled,
-      elevation: 0,
-      shadowOpacity: 0
+    toolbarTitle: {
+      flex: 2,
+      alignItems: 'center',
     },
-    addButtonTextDisabled: {
-      color: colors.inactiveText
+    toolbarTrailing: {
+      flex: 1,
+      alignItems: 'flex-end',
     },
-    listContainer: {
-      flex: 1
+    toolbarAction: {
+      fontSize: 17,
+      fontWeight: '600',
+      color: colors.buttonPrimary,
     },
-    listContent: {
-      paddingBottom: 20
+    toolbarActionDisabled: {
+      color: colors.inactiveText,
     },
     emptyContainer: {
-      flex: 1,
+     
       justifyContent: 'center',
       alignItems: 'center',
-      paddingHorizontal: 40,
-      paddingTop: 60
     },
     emptyText: {
       fontSize: 20,
@@ -150,16 +125,6 @@ export const createMainScreenStyles = (colors: AppThemeColors) =>
       fontWeight: '500',
       color: colors.textColor,
       marginBottom: 16
-    },
-    pickerContainer: {
-      borderWidth: 1,
-      borderColor: colors.border,
-      borderRadius: 8,
-      backgroundColor: colors.cardBackground
-    },
-    picker: {
-      height: 50,
-      color: colors.textColor
     },
     noAvailableContainer: {
       padding: 20,

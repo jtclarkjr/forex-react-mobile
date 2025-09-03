@@ -6,7 +6,8 @@ import {
   ActivityIndicator,
   Modal,
   ScrollView,
-  StatusBar
+  StatusBar,
+  SafeAreaView
 } from 'react-native'
 import { Text } from '@/components/common/Themed'
 import { useAppTheme } from '@/styles/theme'
@@ -188,165 +189,168 @@ export default function WatchlistScreen() {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <StatusBar
-          barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
-          backgroundColor={colors.screenBackground}
-        />
-        <ActivityIndicator size="large" color={colors.buttonPrimary} />
-        <Text style={styles.loadingText}>Loading watchlist...</Text>
-      </View>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.loadingContainer}>
+          <StatusBar
+            barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+            backgroundColor={colors.screenBackground}
+          />
+          <ActivityIndicator size="large" color={colors.buttonPrimary} />
+          <Text style={styles.loadingText}>Loading watchlist...</Text>
+        </View>
+      </SafeAreaView>
     )
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
-        backgroundColor={colors.screenBackground}
-      />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <StatusBar
+          barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+          backgroundColor={colors.screenBackground}
+        />
 
-      <View style={styles.header}>
-        <Text style={styles.title}>Forex Watchlist</Text>
-        {/* <Text style={styles.subtitle}>
-          {watchlistState.items.length} pairs • Tap to view • Hold & drag to
-          reorder • Swipe to delete
-        </Text> */}
-      </View>
-
-      <View style={styles.actions}>
-        <TouchableOpacity
-          style={[
-            styles.addButton,
-            availablePairs.length === 0 && styles.addButtonDisabled
-          ]}
-          onPress={handleOpenModal}
-          disabled={availablePairs.length === 0}
-        >
-          <FontAwesome
-            name="plus"
-            size={16}
-            color={
-              availablePairs.length === 0
-                ? colors.inactiveText
-                : colors.background
-            }
-          />
-          <Text
-            style={[
-              styles.addButtonText,
-              availablePairs.length === 0 && styles.addButtonTextDisabled
-            ]}
-          >
-            Add Pair
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.listContainer}>
-        {watchlistState.items.length === 0 ? (
-          <View style={styles.emptyContainer}>
-            <FontAwesome name="list" size={48} color={colors.textTertiary} />
-            <Text style={styles.emptyText}>No pairs in watchlist</Text>
-            <Text style={styles.emptySubtext}>
-              Tap "Add Pair" to get started
-            </Text>
-          </View>
-        ) : (
-          <DraggableFlatList
-            data={watchlistState.items}
-            onDragEnd={handleDragEnd}
-            onDragBegin={handleDragStart}
-            keyExtractor={(item) => item?.id || `${Math.random()}`}
-            renderItem={renderDragItem}
-            contentContainerStyle={styles.listContent}
-            extraData={[watchlistState.items, removingItems]}
-          />
-        )}
-      </View>
-
-      {/* Add Pair Modal */}
-      <Modal
-        visible={showAddModal}
-        animationType="slide"
-        presentationStyle="pageSheet"
-        onRequestClose={handleCloseModal}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalHeader}>
-            <TouchableOpacity
-              onPress={handleCloseModal}
-              style={styles.modalCloseButton}
-            >
-              <Text style={styles.modalCloseText}>Cancel</Text>
-            </TouchableOpacity>
-            <Text style={styles.modalTitle}>Add Currency Pair</Text>
-            <TouchableOpacity
-              onPress={handleAddPairs}
-              style={styles.modalAddButton}
-              disabled={selectedPairsToAdd.length === 0 || isAdding}
-            >
-              {isAdding ? (
-                <ActivityIndicator size="small" color={colors.buttonPrimary} />
-              ) : (
-                <Text style={styles.modalAddText}>
-                  Add{' '}
-                  {selectedPairsToAdd.length > 0
-                    ? `(${selectedPairsToAdd.length})`
-                    : ''}
-                </Text>
-              )}
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView style={styles.modalContent}>
-            <Text style={styles.modalLabel}>Select currency pairs to add:</Text>
-
-            {availablePairs.length === 0 ? (
-              <View style={styles.noAvailableContainer}>
-                <Text style={styles.noAvailableText}>
-                  All available pairs are already in your watchlist
-                </Text>
-              </View>
-            ) : (
-              <View style={styles.pairListContainer}>
-                {availablePairs.map((pair) => {
-                  const isSelected = selectedPairsToAdd.includes(pair)
-                  return (
-                    <TouchableOpacity
-                      key={pair}
-                      style={[
-                        styles.pairOption,
-                        isSelected && styles.pairOptionSelected
-                      ]}
-                      onPress={() => handlePairSelection(pair)}
-                      activeOpacity={0.7}
-                    >
-                      <View style={styles.pairOptionContent}>
-                        <Text
-                          style={[
-                            styles.pairOptionText,
-                            isSelected && styles.pairOptionTextSelected
-                          ]}
-                        >
-                          {pair}
-                        </Text>
-                        {isSelected && (
-                          <FontAwesome
-                            name="check"
-                            size={18}
-                            color={colors.buttonPrimary}
-                          />
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                  )
-                })}
-              </View>
-            )}
-          </ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.title}>Forex Watchlist</Text>
         </View>
-      </Modal>
-    </View>
+
+        <View style={styles.toolbar}>
+          <View style={styles.toolbarLeading}>
+            {/* Left side of toolbar - empty for now */}
+          </View>
+
+          <View style={styles.toolbarTitle}>
+            {/* Center of toolbar - could put title here if needed */}
+          </View>
+
+          <View style={styles.toolbarTrailing}>
+            <TouchableOpacity
+              onPress={handleOpenModal}
+              disabled={availablePairs.length === 0}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Text
+                style={[
+                  styles.toolbarAction,
+                  availablePairs.length === 0 && styles.toolbarActionDisabled
+                ]}
+              >
+                + Add Pair
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={{ flex: 1 }}>
+          {!watchlistState.items.length ? (
+            <View style={styles.emptyContainer}>
+              <FontAwesome name="list" size={48} color={colors.textTertiary} />
+              <Text style={styles.emptyText}>No pairs in watchlist</Text>
+              <Text style={styles.emptySubtext}>
+                Tap "Add Pair" to get started
+              </Text>
+            </View>
+          ) : (
+            <DraggableFlatList
+              data={watchlistState.items}
+              onDragEnd={handleDragEnd}
+              onDragBegin={handleDragStart}
+              keyExtractor={(item) => item?.id || `${Math.random()}`}
+              renderItem={renderDragItem}
+              style={{ height: '100%' }}
+              extraData={[watchlistState.items, removingItems]}
+            />
+          )}
+        </View>
+
+        {/* Add Pair Modal */}
+        <Modal
+          visible={showAddModal}
+          animationType="slide"
+          presentationStyle="pageSheet"
+          onRequestClose={handleCloseModal}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <TouchableOpacity
+                onPress={handleCloseModal}
+                style={styles.modalCloseButton}
+              >
+                <Text style={styles.modalCloseText}>Cancel</Text>
+              </TouchableOpacity>
+              <Text style={styles.modalTitle}>Add Currency Pair</Text>
+              <TouchableOpacity
+                onPress={handleAddPairs}
+                style={styles.modalAddButton}
+                disabled={selectedPairsToAdd.length === 0 || isAdding}
+              >
+                {isAdding ? (
+                  <ActivityIndicator
+                    size="small"
+                    color={colors.buttonPrimary}
+                  />
+                ) : (
+                  <Text style={styles.modalAddText}>
+                    Add
+                    {selectedPairsToAdd.length > 0
+                      ? `(${selectedPairsToAdd.length})`
+                      : ''}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={styles.modalContent}>
+              <Text style={styles.modalLabel}>
+                Select currency pairs to add:
+              </Text>
+
+              {availablePairs.length === 0 ? (
+                <View style={styles.noAvailableContainer}>
+                  <Text style={styles.noAvailableText}>
+                    All available pairs are already in your watchlist
+                  </Text>
+                </View>
+              ) : (
+                <View style={styles.pairListContainer}>
+                  {availablePairs.map((pair) => {
+                    const isSelected = selectedPairsToAdd.includes(pair)
+                    return (
+                      <TouchableOpacity
+                        key={pair}
+                        style={[
+                          styles.pairOption,
+                          isSelected && styles.pairOptionSelected
+                        ]}
+                        onPress={() => handlePairSelection(pair)}
+                        activeOpacity={0.7}
+                      >
+                        <View style={styles.pairOptionContent}>
+                          <Text
+                            style={[
+                              styles.pairOptionText,
+                              isSelected && styles.pairOptionTextSelected
+                            ]}
+                          >
+                            {pair}
+                          </Text>
+                          {isSelected && (
+                            <FontAwesome
+                              name="check"
+                              size={18}
+                              color={colors.buttonPrimary}
+                            />
+                          )}
+                        </View>
+                      </TouchableOpacity>
+                    )
+                  })}
+                </View>
+              )}
+            </ScrollView>
+          </View>
+        </Modal>
+      </View>
+    </SafeAreaView>
   )
 }

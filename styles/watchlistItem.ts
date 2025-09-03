@@ -12,6 +12,8 @@ export const createWatchlistItemStyles = (colors: AppThemeColors) =>
       backgroundColor: colors.cardBackground,
       marginHorizontal: isWeb && isLargeScreen ? 32 : 16,
       borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
       shadowColor: colors.cardShadow,
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 1,

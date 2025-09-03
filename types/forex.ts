@@ -46,6 +46,13 @@ export interface UseForexStreamState {
   connectionStatus: ConnectionStatus
 }
 
+export interface UseForexStreamReturn extends UseForexStreamState {
+  reconnect: () => void
+  pause: () => void
+  resume: () => void
+  isPaused: boolean
+}
+
 export interface WatchlistItem {
   id: string
   pair?: CurrencyPair // Made optional to handle migration from old format

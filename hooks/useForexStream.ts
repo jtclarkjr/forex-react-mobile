@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { AppState } from 'react-native'
 import type {
   ForexRate,
   CurrencyPair,
@@ -25,6 +26,7 @@ export default function useForexStream(currencyPair: CurrencyPair) {
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const mountedRef = useRef(true)
+  const isPausedRef = useRef(false)
 
   const pairString = `${currencyPair.base}/${currencyPair.quote}`
 
@@ -64,7 +66,7 @@ export default function useForexStream(currencyPair: CurrencyPair) {
   }
 
   const fetchForexData = useCallback(async () => {
-    if (!mountedRef.current) return
+    if (!mountedRef.current || isPausedRef.current) return
 
     let timeoutId: ReturnType<typeof setTimeout> | null = null
 
@@ -117,15 +119,12 @@ export default function useForexStream(currencyPair: CurrencyPair) {
       if (!mountedRef.current) return
 
       let errorMessage = 'Failed to fetch data'
-      let errorType: ErrorState['type'] = 'unknown'
 
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = 'Request timeout. Check your connection.'
-          errorType = 'network'
         } else if (error.message.includes('fetch')) {
           errorMessage = 'Network error. Check your connection.'
-          errorType = 'network'
         }
       }
 
@@ -147,6 +146,7 @@ export default function useForexStream(currencyPair: CurrencyPair) {
     if (!mountedRef.current) return
 
     cleanup()
+    isPausedRef.current = false
 
     setState((prev) => ({
       ...prev,
@@ -161,11 +161,52 @@ export default function useForexStream(currencyPair: CurrencyPair) {
     intervalRef.current = setInterval(fetchForexData, FOREX_UPDATE_INTERVAL)
   }, [fetchForexData, cleanup])
 
+  const pausePolling = useCallback(() => {
+    isPausedRef.current = true
+    cleanup()
+    setState((prev) => ({
+      ...prev,
+      connectionStatus: 'disconnected'
+    }))
+  }, [cleanup])
+
+  const resumePolling = useCallback(() => {
+    if (!mountedRef.current || !isPausedRef.current) return
+    
+    isPausedRef.current = false
+    setState((prev) => ({
+      ...prev,
+      connectionStatus: 'connecting'
+    }))
+    
+    // Fetch fresh data when resuming
+    fetchForexData()
+    
+    // Restart polling
+    intervalRef.current = setInterval(fetchForexData, FOREX_UPDATE_INTERVAL)
+  }, [fetchForexData])
+
   // Effect to handle currency pair changes
   useEffect(() => {
     startPolling()
     return cleanup
   }, [startPolling, cleanup])
+
+  // Handle app state changes to pause/resume polling
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState: string) => {
+      if (nextAppState.match(/inactive|background/)) {
+        console.log('useForexStream: App backgrounded, pausing polling')
+        pausePolling()
+      } else if (nextAppState === 'active' && isPausedRef.current) {
+        console.log('useForexStream: App foregrounded, resuming polling')
+        resumePolling()
+      }
+    }
+
+    const subscription = AppState.addEventListener('change', handleAppStateChange)
+    return () => subscription?.remove()
+  }, [pausePolling, resumePolling])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -173,10 +214,13 @@ export default function useForexStream(currencyPair: CurrencyPair) {
       mountedRef.current = false
       cleanup()
     }
-  }, [cleanup])
+  }, [cleanup, pausePolling, resumePolling])
 
   return {
     ...state,
-    reconnect: startPolling
+    reconnect: startPolling,
+    pause: pausePolling,
+    resume: resumePolling,
+    isPaused: isPausedRef.current
   }
 }
