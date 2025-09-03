@@ -20,6 +20,12 @@ import useWatchlist from '@/hooks/useWatchlist'
 import type { WatchlistItem as WatchlistItemType } from '@/types/forex'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { router } from 'expo-router'
+import {
+  heavyHaptic,
+  successHaptic,
+  errorHaptic,
+  lightHaptic
+} from '@/lib/utils/haptics'
 
 export default function WatchlistScreen() {
   const {
@@ -76,6 +82,7 @@ export default function WatchlistScreen() {
   }
 
   const handlePairSelection = (pair: string) => {
+    lightHaptic() // Light haptic feedback for selection/deselection
     setSelectedPairsToAdd((prev) => {
       if (prev.includes(pair)) {
         return prev.filter((p) => p !== pair)
@@ -87,6 +94,7 @@ export default function WatchlistScreen() {
 
   const handleAddPairs = async () => {
     if (selectedPairsToAdd.length === 0) {
+      errorHaptic() // Error haptic for validation failure
       Alert.alert('Error', 'Please select at least one currency pair to add')
       return
     }
@@ -96,11 +104,13 @@ export default function WatchlistScreen() {
       // Add all selected pairs at once using the new bulk add function
       await addMultiplePairs(selectedPairsToAdd)
 
+      successHaptic() // Success haptic when pairs are added successfully
       // Clear selection and close modal
       setSelectedPairsToAdd([])
       setShowAddModal(false)
       // No success alert - just close modal
     } catch (error) {
+      errorHaptic() // Error haptic for failed addition
       Alert.alert('Error', (error as Error).message)
     } finally {
       setIsAdding(false)
@@ -131,7 +141,10 @@ export default function WatchlistScreen() {
         {
           text: 'Remove',
           style: 'destructive',
-          onPress: () => handleAnimatedDelete(itemId)
+          onPress: () => {
+            errorHaptic() // Error haptic when confirming deletion
+            handleAnimatedDelete(itemId)
+          }
         }
       ]
     )
@@ -139,6 +152,10 @@ export default function WatchlistScreen() {
 
   const handleDragEnd = ({ data }: { data: WatchlistItemType[] }) => {
     reorderPairs(data)
+  }
+
+  const handleDragStart = () => {
+    heavyHaptic() // Heavy haptic feedback when dragging starts
   }
 
   const renderDragItem = ({
@@ -239,6 +256,7 @@ export default function WatchlistScreen() {
           <DraggableFlatList
             data={watchlistState.items}
             onDragEnd={handleDragEnd}
+            onDragBegin={handleDragStart}
             keyExtractor={(item) => item?.id || `${Math.random()}`}
             renderItem={renderDragItem}
             contentContainerStyle={styles.listContent}

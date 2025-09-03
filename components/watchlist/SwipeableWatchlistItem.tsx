@@ -12,6 +12,7 @@ import WatchlistItem from './WatchlistItem'
 import type { WatchlistItem as WatchlistItemType } from '@/types/forex'
 import { useAppTheme } from '@/styles/theme'
 import { createSwipeableWatchlistItemStyles } from '@/styles/swipeableWatchlistItem'
+import { errorHaptic, mediumHaptic } from '@/lib/utils/haptics'
 
 interface SwipeableWatchlistItemProps {
   item: WatchlistItemType
@@ -38,6 +39,7 @@ export default function SwipeableWatchlistItem({
 
   const renderRightActions = (progressAnimatedValue: SharedValue<number>) => {
     const handleDelete = () => {
+      errorHaptic() // Haptic feedback for deletion action
       onDelete(item.id)
     }
 
@@ -82,6 +84,9 @@ export default function SwipeableWatchlistItem({
         friction={1.5}
         overshootRight={false}
         enabled={!isDragging}
+        onSwipeableWillOpen={() => {
+          mediumHaptic() // Haptic feedback when swipe actions are revealed
+        }}
       >
         <WatchlistItem
           item={item}
