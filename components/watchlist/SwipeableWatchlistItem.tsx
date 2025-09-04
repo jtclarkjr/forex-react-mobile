@@ -13,7 +13,7 @@ import WatchlistItem from './WatchlistItem'
 import type { WatchlistItem as WatchlistItemType } from '@/types/forex'
 import { useAppTheme } from '@/styles/theme'
 import { createSwipeableWatchlistItemStyles } from '@/styles/swipeableWatchlistItem'
-import { errorHaptic, mediumHaptic } from '@/lib/utils/haptics'
+import { mediumHaptic } from '@/lib/utils/haptics'
 
 interface SwipeableWatchlistItemProps {
   item: WatchlistItemType
