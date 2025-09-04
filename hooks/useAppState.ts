@@ -65,7 +65,11 @@ export default function useAppState(
       handleAppStateChange
     )
 
-    return () => subscription?.remove()
+    return () => {
+      if (subscription?.remove) {
+        subscription.remove()
+      }
+    }
   }, [])
 
   return {

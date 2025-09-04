@@ -58,10 +58,7 @@ export default function useWatchlist() {
     if (!typedItem.pair) {
       const [base, quote] = typedItem.pairString.split('/')
       return {
-        id:
-          typeof typedItem.id === 'string'
-            ? typedItem.id
-            : uuid.v4(),
+        id: typeof typedItem.id === 'string' ? typedItem.id : uuid.v4(),
         pair: {
           base: base as CurrencyPair['base'],
           quote: quote as CurrencyPair['quote']
@@ -74,8 +71,7 @@ export default function useWatchlist() {
 
     // Handle newer format - construct a proper WatchlistItem
     return {
-      id:
-        typeof typedItem.id === 'string' ? typedItem.id : uuid.v4(),
+      id: typeof typedItem.id === 'string' ? typedItem.id : uuid.v4(),
       pair: typedItem.pair as CurrencyPair,
       pairString: typedItem.pairString,
       isActive:
@@ -165,7 +161,8 @@ export default function useWatchlist() {
     const newPairs = pairStrings.filter((pair) => !existingPairs.includes(pair))
 
     if (newPairs.length === 0) {
-      throw new Error('All selected pairs are already in watchlist')
+      // No new pairs to add - return silently
+      return
     }
 
     // Create new items for all valid pairs
