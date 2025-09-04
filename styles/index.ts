@@ -7,3 +7,5 @@ export { createMainScreenStyles } from './mainScreen'
 export { createWatchlistItemStyles } from './watchlistItem'
 export { createPairDetailsStyles } from './pairDetails'
 export { createSwipeableWatchlistItemStyles } from './swipeableWatchlistItem'
+
+// Consider adding nativewind and UI components instead of StyleSheet
