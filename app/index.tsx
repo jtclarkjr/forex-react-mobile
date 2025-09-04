@@ -19,15 +19,13 @@ import DraggableFlatList, {
   RenderItemParams
 } from 'react-native-draggable-flatlist'
 import useWatchlist from '@/hooks/useWatchlist'
-import type { WatchlistItem as WatchlistItemType } from '@/types/forex'
+import type {
+  SupportedPair,
+  WatchlistItem as WatchlistItemType
+} from '@/types/forex'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { router } from 'expo-router'
-import {
-  heavyHaptic,
-  successHaptic,
-  errorHaptic,
-  lightHaptic
-} from '@/lib/utils/haptics'
+import { successHaptic, errorHaptic, lightHaptic } from '@/lib/utils/haptics'
 
 export default function WatchlistScreen() {
   const {
@@ -42,7 +40,9 @@ export default function WatchlistScreen() {
   } = useWatchlist()
 
   const [showAddModal, setShowAddModal] = useState(false)
-  const [selectedPairsToAdd, setSelectedPairsToAdd] = useState<string[]>([])
+  const [selectedPairsToAdd, setSelectedPairsToAdd] = useState<SupportedPair[]>(
+    []
+  )
   const [isAdding, setIsAdding] = useState(false)
   const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
 
@@ -85,7 +85,7 @@ export default function WatchlistScreen() {
     }
   }
 
-  const handlePairSelection = (pair: string) => {
+  const handlePairSelection = (pair: SupportedPair) => {
     lightHaptic() // Light haptic feedback for selection/deselection
     setSelectedPairsToAdd((prev) => {
       if (prev.includes(pair)) {
@@ -137,29 +137,12 @@ export default function WatchlistScreen() {
   }
 
   const handleDelete = (itemId: string) => {
-    Alert.alert(
-      'Remove Pair',
-      'Are you sure you want to remove this pair from your watchlist?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Remove',
-          style: 'destructive',
-          onPress: () => {
-            errorHaptic() // Error haptic when confirming deletion
-            handleAnimatedDelete(itemId)
-          }
-        }
-      ]
-    )
+    // Immediate delete: trigger haptic and start animated removal without confirmation
+    handleAnimatedDelete(itemId)
   }
 
   const handleDragEnd = ({ data }: { data: WatchlistItemType[] }) => {
     reorderPairs(data)
-  }
-
-  const handleDragStart = () => {
-    heavyHaptic() // Heavy haptic feedback when dragging starts
   }
 
   const renderDragItem = ({
@@ -257,7 +240,6 @@ export default function WatchlistScreen() {
             <DraggableFlatList
               data={watchlistState.items}
               onDragEnd={handleDragEnd}
-              onDragBegin={handleDragStart}
               keyExtractor={(item) => item?.id || `${Math.random()}`}
               renderItem={renderDragItem}
               style={{ height: '100%' }}

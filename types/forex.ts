@@ -8,6 +8,17 @@ export type SupportedCurrency =
   | 'CHF'
   | 'CNY'
 
+export type SupportedPair =
+  | 'USD/JPY'
+  | 'EUR/USD'
+  | 'GBP/USD'
+  | 'AUD/USD'
+  | 'USD/CAD'
+  | 'USD/CHF'
+  | 'USD/CNY'
+  | 'EUR/JPY'
+  | 'GBP/JPY'
+
 export type ConnectionStatus = 'connected' | 'connecting' | 'disconnected'
 
 // Main forex rate interface (using service format directly)

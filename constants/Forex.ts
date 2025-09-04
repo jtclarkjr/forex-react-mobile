@@ -1,5 +1,4 @@
-import type { SupportedCurrency } from '@/types/forex'
-import { SUPPORTED_PAIRS } from '@/constants/Config'
+import type { SupportedCurrency, SupportedPair } from '@/types/forex'
 
 export const SUPPORTED_CURRENCIES: SupportedCurrency[] = [
   'USD',
@@ -12,6 +11,19 @@ export const SUPPORTED_CURRENCIES: SupportedCurrency[] = [
   'CNY'
 ]
 
+// Supported currency pairs that we know the forex service supports
+export const SUPPORTED_PAIRS = [
+  'USD/JPY',
+  'EUR/USD',
+  'GBP/USD',
+  'AUD/USD',
+  'USD/CAD',
+  'USD/CHF',
+  'USD/CNY',
+  'EUR/JPY',
+  'GBP/JPY'
+] as const satisfies readonly SupportedPair[]
+
 export const DEFAULT_CURRENCY_PAIR = {
   base: 'USD' as SupportedCurrency,
   quote: 'JPY' as SupportedCurrency
@@ -20,7 +32,7 @@ export const DEFAULT_CURRENCY_PAIR = {
 export const FOREX_UPDATE_INTERVAL = 2000 // 2 seconds
 
 // Default watchlist pairs (using forex service supported pairs)
-export const DEFAULT_WATCHLIST_PAIRS = [
+export const DEFAULT_WATCHLIST_PAIRS: SupportedPair[] = [
   'USD/JPY',
   'EUR/USD',
   'GBP/USD',

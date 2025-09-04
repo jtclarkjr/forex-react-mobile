@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useRef, useCallback } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 import Animated, {
   SharedValue,
   interpolate,
-  useAnimatedStyle
+  useAnimatedStyle,
+  runOnJS
 } from 'react-native-reanimated'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import WatchlistItem from './WatchlistItem'
@@ -33,13 +34,16 @@ export default function SwipeableWatchlistItem({
   onDrag,
   isDragging
 }: SwipeableWatchlistItemProps) {
-  // Theme
   const { colors } = useAppTheme()
   const styles = createSwipeableWatchlistItemStyles(colors)
+  const swipeableRef = useRef<React.ComponentRef<typeof Swipeable> | null>(null)
+
+  const handleAutoDelete = useCallback(() => {
+    onDelete(item.id)
+  }, [item.id, onDelete])
 
   const renderRightActions = (progressAnimatedValue: SharedValue<number>) => {
     const handleDelete = () => {
-      errorHaptic() // Haptic feedback for deletion action
       onDelete(item.id)
     }
 
@@ -57,6 +61,11 @@ export default function SwipeableWatchlistItem({
         [0, 0.5, 1],
         'clamp'
       )
+
+      // If swiped far enough, trigger auto-delete
+      if (progressAnimatedValue.value > 1.8) {
+        runOnJS(handleAutoDelete)()
+      }
 
       return {
         transform: [{ scale }],
@@ -79,10 +88,13 @@ export default function SwipeableWatchlistItem({
   return (
     <GestureHandlerRootView>
       <Swipeable
+        ref={(ref) => {
+          swipeableRef.current = ref
+        }}
         renderRightActions={renderRightActions}
         rightThreshold={40}
         friction={1.5}
-        overshootRight={false}
+        overshootRight
         enabled={!isDragging}
         onSwipeableWillOpen={() => {
           mediumHaptic() // Haptic feedback when swipe actions are revealed

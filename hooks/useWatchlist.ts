@@ -1,18 +1,24 @@
 import { useState, useEffect } from 'react'
+import uuid from 'react-native-uuid'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import type {
   WatchlistItem,
   WatchlistState,
-  CurrencyPair
-} from '../types/forex'
-import { DEFAULT_WATCHLIST_PAIRS, AVAILABLE_PAIRS } from '../constants/Forex'
+  CurrencyPair,
+  SupportedPair
+} from '@/types/forex'
+import {
+  DEFAULT_WATCHLIST_PAIRS,
+  AVAILABLE_PAIRS,
+  SUPPORTED_PAIRS
+} from '@/constants/Forex'
 
 const STORAGE_KEY = 'forex_watchlist'
 
 function createWatchlistItem(pairString: string): WatchlistItem {
   const [base, quote] = pairString.split('/')
   return {
-    id: `${Date.now()}-${Math.random()}`,
+    id: uuid.v4() as string,
     pair: {
       base: base as CurrencyPair['base'],
       quote: quote as CurrencyPair['quote']
@@ -35,6 +41,11 @@ export default function useWatchlist() {
     loadWatchlist()
   }, [])
 
+  // Type guard to check if a string is a supported pair
+  const isSupportedPair = (pair: SupportedPair) => {
+    return SUPPORTED_PAIRS.includes(pair)
+  }
+
   const migrateWatchlistItem = (item: unknown): WatchlistItem => {
     const typedItem = item as Record<string, unknown>
 
@@ -50,7 +61,7 @@ export default function useWatchlist() {
         id:
           typeof typedItem.id === 'string'
             ? typedItem.id
-            : `${Date.now()}-${Math.random()}`,
+            : uuid.v4() as string,
         pair: {
           base: base as CurrencyPair['base'],
           quote: quote as CurrencyPair['quote']
@@ -66,7 +77,7 @@ export default function useWatchlist() {
       id:
         typeof typedItem.id === 'string'
           ? typedItem.id
-          : `${Date.now()}-${Math.random()}`,
+          : uuid.v4() as string,
       pair: typedItem.pair as CurrencyPair,
       pairString: typedItem.pairString,
       isActive:
@@ -117,8 +128,8 @@ export default function useWatchlist() {
     }
   }
 
-  const addPair = async (pairString: string) => {
-    if (!AVAILABLE_PAIRS.includes(pairString)) {
+  const addPair = async (pairString: SupportedPair) => {
+    if (!isSupportedPair(pairString)) {
       throw new Error('Invalid currency pair')
     }
 
@@ -140,15 +151,13 @@ export default function useWatchlist() {
     await saveWatchlist(updatedItems)
   }
 
-  const addMultiplePairs = async (pairStrings: string[]) => {
+  const addMultiplePairs = async (pairStrings: SupportedPair[]) => {
     if (pairStrings.length === 0) {
       throw new Error('No pairs to add')
     }
 
     // Validate all pairs first
-    const invalidPairs = pairStrings.filter(
-      (pair) => !AVAILABLE_PAIRS.includes(pair)
-    )
+    const invalidPairs = pairStrings.filter((pair) => !isSupportedPair(pair))
     if (invalidPairs.length > 0) {
       throw new Error(`Invalid currency pairs: ${invalidPairs.join(', ')}`)
     }
@@ -203,7 +212,7 @@ export default function useWatchlist() {
     await saveWatchlist(updatedItems)
   }
 
-  const getAvailableToAdd = () => {
+  const getAvailableToAdd = (): SupportedPair[] => {
     const existingPairs = watchlistState.items.map((item) => item.pairString)
     return AVAILABLE_PAIRS.filter((pair) => !existingPairs.includes(pair))
   }
