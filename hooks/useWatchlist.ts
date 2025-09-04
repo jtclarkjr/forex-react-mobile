@@ -18,7 +18,7 @@ const STORAGE_KEY = 'forex_watchlist'
 function createWatchlistItem(pairString: string): WatchlistItem {
   const [base, quote] = pairString.split('/')
   return {
-    id: uuid.v4() as string,
+    id: uuid.v4(),
     pair: {
       base: base as CurrencyPair['base'],
       quote: quote as CurrencyPair['quote']
@@ -61,7 +61,7 @@ export default function useWatchlist() {
         id:
           typeof typedItem.id === 'string'
             ? typedItem.id
-            : uuid.v4() as string,
+            : uuid.v4(),
         pair: {
           base: base as CurrencyPair['base'],
           quote: quote as CurrencyPair['quote']
@@ -75,9 +75,7 @@ export default function useWatchlist() {
     // Handle newer format - construct a proper WatchlistItem
     return {
       id:
-        typeof typedItem.id === 'string'
-          ? typedItem.id
-          : uuid.v4() as string,
+        typeof typedItem.id === 'string' ? typedItem.id : uuid.v4(),
       pair: typedItem.pair as CurrencyPair,
       pairString: typedItem.pairString,
       isActive:
