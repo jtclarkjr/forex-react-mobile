@@ -140,6 +140,8 @@ For production builds and testing on physical iOS devices, you can use Xcode:
    - Click the "Play" button in Xcode or press `Cmd+R`
    - App will compile and install directly to your device
 
+> **Note**: For development builds to work on device, you must have Metro bundler running. Use `bun ios` or `bunx expo start --dev-client` and ensure both your computer and device are on the same network.
+
 ### Development vs. Production Builds
 
 - **Development builds**: Include debugging capabilities and faster reload
