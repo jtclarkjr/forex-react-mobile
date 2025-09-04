@@ -101,6 +101,66 @@ bun start
    - Press `a` for Android emulator
    - Scan QR code with Expo Go app on your device
 
+## Building to Physical Device (iOS)
+
+For production builds and testing on physical iOS devices, you can use Xcode:
+
+### Prerequisites
+
+- Xcode installed (latest version recommended)
+- Apple Developer account (free tier works for personal development)
+- iOS device connected via USB
+
+### Steps
+
+1. **Generate native iOS project**:
+
+   ```bash
+   bunx expo prebuild --platform ios
+   ```
+
+2. **Open in Xcode**:
+
+   ```bash
+   open ios/forexrn.xcworkspace
+   ```
+
+3. **Configure signing**:
+   - In Xcode, select your project in the navigator
+   - Go to "Signing & Capabilities" tab
+   - Select your team/Apple ID for automatic signing
+   - Ensure a valid bundle identifier is set
+
+4. **Select target device**:
+   - Connect your iOS device via USB
+   - Select your device from the device dropdown in Xcode toolbar
+   - Trust the developer certificate on your device when prompted
+
+5. **Build and run**:
+   - Click the "Play" button in Xcode or press `Cmd+R`
+   - App will compile and install directly to your device
+
+### Development vs. Production Builds
+
+- **Development builds**: Include debugging capabilities and faster reload
+- **Production builds**: Optimized, smaller size, ready for App Store
+
+For production builds:
+
+```bash
+bunx expo build:ios
+# or
+eas build --platform ios
+```
+
+### Troubleshooting
+
+- **Code signing issues**: Ensure your Apple ID is added in Xcode preferences
+- **Device trust**: Make sure to "Trust this computer" on your iOS device
+- **Bundle ID conflicts**: Use a unique bundle identifier in `app.json`
+- **Clean builds**: In Xcode, use `Product > Clean Build Folder` if issues
+  persist
+
 ## Project Structure
 
 ```
