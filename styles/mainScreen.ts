@@ -63,6 +63,7 @@ export const createMainScreenStyles = (colors: AppThemeColors) =>
       color: colors.inactiveText
     },
     emptyContainer: {
+      flex: 0.7,
       justifyContent: 'center',
       alignItems: 'center'
     },

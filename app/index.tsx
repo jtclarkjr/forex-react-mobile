@@ -26,6 +26,8 @@ import type {
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { router } from 'expo-router'
 import { successHaptic, errorHaptic, lightHaptic } from '@/lib/utils/haptics'
+import Animated from 'react-native-reanimated'
+import { useEmptyStateAnimation } from '@/hooks/useEmptyStateAnimation'
 
 export default function WatchlistScreen() {
   const {
@@ -45,6 +47,12 @@ export default function WatchlistScreen() {
   )
   const [isAdding, setIsAdding] = useState(false)
   const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
+
+  // Use custom hook for empty state animation
+  const animatedEmptyStyle = useEmptyStateAnimation(
+    watchlistState.items.length === 0,
+    loading
+  )
 
   const handleOpenModal = () => {
     setSelectedPairsToAdd([])
@@ -229,13 +237,13 @@ export default function WatchlistScreen() {
 
         <View style={{ flex: 1 }}>
           {!watchlistState.items.length ? (
-            <View style={styles.emptyContainer}>
+            <Animated.View style={[styles.emptyContainer, animatedEmptyStyle]}>
               <FontAwesome name="list" size={48} color={colors.textTertiary} />
               <Text style={styles.emptyText}>No pairs in watchlist</Text>
               <Text style={styles.emptySubtext}>
                 Tap "Add Pair" to get started
               </Text>
-            </View>
+            </Animated.View>
           ) : (
             <DraggableFlatList
               data={watchlistState.items}
