@@ -29,7 +29,7 @@ export const DEFAULT_CURRENCY_PAIR = {
   quote: 'JPY' as SupportedCurrency
 }
 
-export const FOREX_UPDATE_INTERVAL = 2000 // 2 seconds
+export const FOREX_UPDATE_INTERVAL = 5000 // 5 seconds, TradingView as reference
 
 // Default watchlist pairs (using forex service supported pairs)
 export const DEFAULT_WATCHLIST_PAIRS: SupportedPair[] = [
