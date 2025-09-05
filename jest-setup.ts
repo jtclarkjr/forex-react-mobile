@@ -74,7 +74,9 @@ beforeAll(() => {
     if (
       typeof args[0] === 'string' &&
       (args[0].includes('Warning: ReactDOM.render is deprecated') ||
-       args[0].includes('An update to HookContainer inside a test was not wrapped in act(...)'))
+        args[0].includes(
+          'An update to HookContainer inside a test was not wrapped in act(...)'
+        ))
     ) {
       return
     }

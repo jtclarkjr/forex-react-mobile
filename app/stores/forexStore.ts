@@ -1,7 +1,11 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
-import type { ForexRate, SupportedPair, ConnectionStatus } from '@/lib/types/forex'
+import type {
+  ForexRate,
+  SupportedPair,
+  ConnectionStatus
+} from '@/lib/types/forex'
 import type { ForexStore, ForexDataResult } from '@/lib/types/forexStore'
 import { API_ENDPOINT, FOREX_UPDATE_INTERVAL } from '@/lib/constants/Forex'
 import {
