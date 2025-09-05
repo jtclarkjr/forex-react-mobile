@@ -1,8 +1,5 @@
-/**
- * Currency utility functions
- */
-
 import { CURRENCY_NAMES, CURRENCY_SYMBOLS } from '@/lib/constants/forex'
+import { SupportedCurrency } from '@/lib/types/forex'
 
 /**
  * Get the full currency name from a currency code
@@ -31,13 +28,13 @@ export const getCurrencySymbol = (code: string): string => {
  */
 export const formatPrice = (
   price: number,
-  currency?: string,
+  currency?: SupportedCurrency,
   decimals?: number
 ): string => {
   // Auto-detect decimal places based on currency if not specified
   if (decimals === undefined) {
-    if (currency === 'JPY' || currency === 'KRW') {
-      decimals = 0 // Yen and Won typically don't use decimal places
+    if (currency === 'JPY') {
+      decimals = 0 // Yen typically don't use decimal places
     } else {
       decimals = 5 // Default for forex pairs
     }
