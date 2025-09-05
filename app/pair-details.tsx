@@ -49,11 +49,11 @@ export default function PairDetailsModal() {
     if (loading && !data) {
       return <LoadingState />
     }
-    
+
     if (error) {
       return <ErrorState />
     }
-    
+
     if (data) {
       return (
         <>
@@ -64,7 +64,7 @@ export default function PairDetailsModal() {
         </>
       )
     }
-    
+
     return <NoDataState />
   }
 
