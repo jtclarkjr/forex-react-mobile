@@ -44,6 +44,30 @@ export default function PairDetailsModal() {
   const { data, loading, error, connectionStatus } =
     useForexStream(currencyPair)
 
+  // Determine which content to render
+  const renderContent = () => {
+    if (loading && !data) {
+      return <LoadingState />
+    }
+    
+    if (error) {
+      return <ErrorState />
+    }
+    
+    if (data) {
+      return (
+        <>
+          <PriceCard price={data.price} timestamp={data.time_stamp} />
+          <BidAskCard bid={data.bid} ask={data.ask} />
+          <CurrencyInfo base={base} quote={quote} />
+          <TechnicalDetails from={data.from} to={data.to} />
+        </>
+      )
+    }
+    
+    return <NoDataState />
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -52,20 +76,7 @@ export default function PairDetailsModal() {
       />
       <ConnectionStatus status={connectionStatus} pairString={pairString} />
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {loading && !data ? (
-          <LoadingState />
-        ) : error ? (
-          <ErrorState />
-        ) : data ? (
-          <>
-            <PriceCard price={data.price} timestamp={data.time_stamp} />
-            <BidAskCard bid={data.bid} ask={data.ask} />
-            <CurrencyInfo base={base} quote={quote} />
-            <TechnicalDetails from={data.from} to={data.to} />
-          </>
-        ) : (
-          <NoDataState />
-        )}
+        {renderContent()}
       </ScrollView>
     </View>
   )
