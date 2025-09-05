@@ -51,10 +51,6 @@ export class EmptyPairsError extends WatchlistError {
   }
 }
 
-// =============================================================================
-// HELPER FUNCTIONS
-// =============================================================================
-
 /**
  * Creates a new watchlist item from a currency pair string
  */
