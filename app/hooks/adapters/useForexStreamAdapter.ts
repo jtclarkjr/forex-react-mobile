@@ -5,7 +5,7 @@ import type {
   CurrencyPair,
   UseForexStreamReturn,
   SupportedPair
-} from '@/types/forex'
+} from '@/lib/types/forex'
 
 /**
  * Adapter hook that maintains the same interface as the original useForexStream hook

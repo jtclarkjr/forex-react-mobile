@@ -1,5 +1,5 @@
 import { router } from 'expo-router'
-import type { WatchlistItem } from '@/types/forex'
+import type { WatchlistItem } from '@/lib/types/forex'
 
 export function usePairNavigation() {
   const navigateToPairDetails = (item: WatchlistItem) => {

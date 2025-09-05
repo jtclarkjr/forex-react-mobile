@@ -7,7 +7,7 @@ import useForexStream from '@/hooks/adapters/useForexStreamAdapter'
 import type {
   WatchlistItem as WatchlistItemType,
   CurrencyPair
-} from '@/types/forex'
+} from '@/lib/types/forex'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 interface WatchlistItemProps {

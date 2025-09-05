@@ -1,9 +1,9 @@
 import uuid from 'react-native-uuid'
-import type { WatchlistItem, CurrencyPair, SupportedPair } from '@/types/forex'
+import type { WatchlistItem, CurrencyPair, SupportedPair } from '@/lib/types/forex'
 import type {
   CreateItemOptions,
   PairValidationResult
-} from '@/types/watchlistStore'
+} from '@/lib/types/watchlistStore'
 import { SUPPORTED_PAIRS, AVAILABLE_PAIRS } from '@/lib/constants/Forex'
 
 /** Configuration constants for watchlist store */

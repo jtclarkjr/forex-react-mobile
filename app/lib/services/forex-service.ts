@@ -1,4 +1,4 @@
-import type { ForexRate, ForexServiceResponse } from '@/types/forex'
+import type { ForexRate, ForexServiceResponse } from '@/lib/types/forex'
 import { FOREX_SERVICE_CONFIG } from '@/lib/constants/Config'
 import { formatForexResponse, formatPairForApi } from '@/lib/utils/forex-utils'
 

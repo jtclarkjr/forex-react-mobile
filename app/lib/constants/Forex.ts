@@ -1,4 +1,4 @@
-import type { SupportedCurrency, SupportedPair } from '@/types/forex'
+import type { SupportedCurrency, SupportedPair } from '@/lib/types/forex'
 
 export const API_ENDPOINT = '/api/forex'
 

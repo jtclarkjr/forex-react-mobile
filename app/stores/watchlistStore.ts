@@ -2,8 +2,8 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import type { WatchlistItem, SupportedPair } from '@/types/forex'
-import type { WatchlistStore } from '@/types/watchlistStore'
+import type { WatchlistItem, SupportedPair } from '@/lib/types/forex'
+import type { WatchlistStore } from '@/lib/types/watchlistStore'
 import {
   DEFAULT_WATCHLIST_PAIRS,
   AVAILABLE_PAIRS,
@@ -86,7 +86,7 @@ export const useWatchlistStore = create<WatchlistStore>()(
         }
 
         // Create new items for all valid pairs
-        const newItems = validation.valid.map((pairString) =>
+        const newItems = validation.valid.map((pairString: SupportedPair) =>
           createWatchlistItem(pairString)
         )
 

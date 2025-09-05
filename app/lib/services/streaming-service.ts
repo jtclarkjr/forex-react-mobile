@@ -2,7 +2,7 @@ import type {
   ForexRate,
   ApiResponse,
   ForexServiceResponse
-} from '@/types/forex'
+} from '@/lib/types/forex'
 import { FOREX_SERVICE_CONFIG } from '@/lib/constants/Config'
 import { formatForexResponse, formatPairForApi } from '@/lib/utils/forex-utils'
 
