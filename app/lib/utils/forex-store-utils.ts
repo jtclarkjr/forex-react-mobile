@@ -1,4 +1,4 @@
-import type { ForexRate, SupportedPair } from '@/types/forex'
+import type { ForexRate, SupportedPair } from '@/lib/types/forex'
 
 /**
  * Creates the API URL for fetching forex data for a specific pair
