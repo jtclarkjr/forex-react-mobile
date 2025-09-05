@@ -2,35 +2,15 @@
  * Currency utility functions
  */
 
+import { CURRENCY_NAMES, CURRENCY_SYMBOLS } from '@/lib/constants/forex'
+
 /**
  * Get the full currency name from a currency code
  * @param code Currency code (e.g., 'USD', 'EUR')
  * @returns Full currency name (e.g., 'US Dollar', 'Euro')
  */
 export const getCurrencyName = (code: string): string => {
-  const currencyNames: Record<string, string> = {
-    USD: 'US Dollar',
-    EUR: 'Euro',
-    JPY: 'Japanese Yen',
-    GBP: 'British Pound',
-    AUD: 'Australian Dollar',
-    CAD: 'Canadian Dollar',
-    CHF: 'Swiss Franc',
-    CNY: 'Chinese Yuan',
-    NZD: 'New Zealand Dollar',
-    SEK: 'Swedish Krona',
-    NOK: 'Norwegian Krone',
-    DKK: 'Danish Krone',
-    PLN: 'Polish Zloty',
-    CZK: 'Czech Koruna',
-    HUF: 'Hungarian Forint',
-    TRY: 'Turkish Lira',
-    ZAR: 'South African Rand',
-    MXN: 'Mexican Peso',
-    SGD: 'Singapore Dollar',
-    HKD: 'Hong Kong Dollar'
-  }
-  return currencyNames[code] || code
+  return CURRENCY_NAMES[code] || code
 }
 
 /**
@@ -39,29 +19,7 @@ export const getCurrencyName = (code: string): string => {
  * @returns Currency symbol (e.g., '$', '€')
  */
 export const getCurrencySymbol = (code: string): string => {
-  const currencySymbols: Record<string, string> = {
-    USD: '$',
-    EUR: '€',
-    JPY: '¥',
-    GBP: '£',
-    AUD: 'A$',
-    CAD: 'C$',
-    CHF: 'CHF',
-    CNY: '¥',
-    NZD: 'NZ$',
-    SEK: 'kr',
-    NOK: 'kr',
-    DKK: 'kr',
-    PLN: 'zł',
-    CZK: 'Kč',
-    HUF: 'Ft',
-    TRY: '₺',
-    ZAR: 'R',
-    MXN: '$',
-    SGD: 'S$',
-    HKD: 'HK$'
-  }
-  return currencySymbols[code] || code
+  return CURRENCY_SYMBOLS[code] || code
 }
 
 /**

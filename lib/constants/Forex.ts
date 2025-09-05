@@ -2,6 +2,54 @@ import type { SupportedCurrency, SupportedPair } from '@/lib/types/forex'
 
 export const API_ENDPOINT = '/api/forex'
 
+// Currency names mapping
+export const CURRENCY_NAMES: Record<string, string> = {
+  USD: 'US Dollar',
+  EUR: 'Euro',
+  JPY: 'Japanese Yen',
+  GBP: 'British Pound',
+  AUD: 'Australian Dollar',
+  CAD: 'Canadian Dollar',
+  CHF: 'Swiss Franc',
+  CNY: 'Chinese Yuan',
+  NZD: 'New Zealand Dollar',
+  SEK: 'Swedish Krona',
+  NOK: 'Norwegian Krone',
+  DKK: 'Danish Krone',
+  PLN: 'Polish Zloty',
+  CZK: 'Czech Koruna',
+  HUF: 'Hungarian Forint',
+  TRY: 'Turkish Lira',
+  ZAR: 'South African Rand',
+  MXN: 'Mexican Peso',
+  SGD: 'Singapore Dollar',
+  HKD: 'Hong Kong Dollar'
+}
+
+// Currency symbols mapping
+export const CURRENCY_SYMBOLS: Record<string, string> = {
+  USD: '$',
+  EUR: '€',
+  JPY: '¥',
+  GBP: '£',
+  AUD: 'A$',
+  CAD: 'C$',
+  CHF: 'CHF',
+  CNY: '¥',
+  NZD: 'NZ$',
+  SEK: 'kr',
+  NOK: 'kr',
+  DKK: 'kr',
+  PLN: 'zł',
+  CZK: 'Kč',
+  HUF: 'Ft',
+  TRY: '₺',
+  ZAR: 'R',
+  MXN: '$',
+  SGD: 'S$',
+  HKD: 'HK$'
+}
+
 export const SUPPORTED_CURRENCIES: SupportedCurrency[] = [
   'USD',
   'JPY',
