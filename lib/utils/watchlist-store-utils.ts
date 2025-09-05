@@ -8,7 +8,7 @@ import type {
   CreateItemOptions,
   PairValidationResult
 } from '@/lib/types/watchlistStore'
-import { SUPPORTED_PAIRS, AVAILABLE_PAIRS } from '@/lib/constants/forex'
+import { SUPPORTED_PAIRS, AVAILABLE_PAIRS } from '@/constants/forex'
 
 /** Configuration constants for watchlist store */
 export const WATCHLIST_CONFIG = {
