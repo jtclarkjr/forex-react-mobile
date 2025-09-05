@@ -79,7 +79,7 @@ docker pull paidyinc/one-frame:latest
 docker run -p 8080:8080 paidyinc/one-frame
 ```
 
-[Dockere image details](https://hub.docker.com/r/paidyinc/one-frame)
+[Docker image details](https://hub.docker.com/r/paidyinc/one-frame)
 
 The API service will be available at `http://localhost:8080`.
 
