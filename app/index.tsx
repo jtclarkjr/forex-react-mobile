@@ -18,7 +18,7 @@ import DraggableFlatList, {
   ScaleDecorator,
   RenderItemParams
 } from 'react-native-draggable-flatlist'
-import useWatchlist from '@/hooks/useWatchlist'
+import { useWatchlistStore } from '@/stores'
 import type {
   SupportedPair,
   WatchlistItem as WatchlistItemType
@@ -27,19 +27,19 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { router } from 'expo-router'
 import { successHaptic, errorHaptic, lightHaptic } from '@/lib/utils/haptics'
 import Animated from 'react-native-reanimated'
-import { useEmptyStateAnimation } from '@/hooks/useEmptyStateAnimation'
+import { useEmptyStateAnimation } from '@/hooks/ui/useEmptyStateAnimation'
 
 export default function WatchlistScreen() {
   const {
-    watchlistState,
+    items,
     loading,
     refreshing,
     addMultiplePairs,
     removePair,
     reorderPairs,
     getAvailableToAdd,
-    refreshWatchlistData
-  } = useWatchlist()
+    refreshWatchlist
+  } = useWatchlistStore()
 
   const [showAddModal, setShowAddModal] = useState(false)
   const [selectedPairsToAdd, setSelectedPairsToAdd] = useState<SupportedPair[]>(
@@ -49,10 +49,7 @@ export default function WatchlistScreen() {
   const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
 
   // Use custom hook for empty state animation
-  const animatedEmptyStyle = useEmptyStateAnimation(
-    watchlistState.items.length === 0,
-    loading
-  )
+  const animatedEmptyStyle = useEmptyStateAnimation(items.length === 0, loading)
 
   const handleOpenModal = () => {
     setSelectedPairsToAdd([])
@@ -166,7 +163,7 @@ export default function WatchlistScreen() {
       <ScaleDecorator>
         <AnimatedWatchlistItem
           item={item}
-          index={watchlistState.items.findIndex((i) => i.id === item.id)}
+          index={items.findIndex((i) => i.id === item.id)}
           onToggleActive={() => {}} // Disabled for now
           onPress={handleItemPress}
           onDelete={handleDelete}
@@ -236,7 +233,7 @@ export default function WatchlistScreen() {
         </View>
 
         <View style={{ flex: 1 }}>
-          {!watchlistState.items.length ? (
+          {!items.length ? (
             <Animated.View style={[styles.emptyContainer, animatedEmptyStyle]}>
               <FontAwesome name="list" size={48} color={colors.textTertiary} />
               <Text style={styles.emptyText}>No pairs in watchlist</Text>
@@ -246,16 +243,16 @@ export default function WatchlistScreen() {
             </Animated.View>
           ) : (
             <DraggableFlatList
-              data={watchlistState.items}
+              data={items}
               onDragEnd={handleDragEnd}
               keyExtractor={(item) => item?.id || `${Math.random()}`}
               renderItem={renderDragItem}
               style={{ height: '100%' }}
-              extraData={[watchlistState.items, removingItems]}
+              extraData={[items, removingItems]}
               refreshControl={
                 <RefreshControl
                   refreshing={refreshing}
-                  onRefresh={refreshWatchlistData}
+                  onRefresh={refreshWatchlist}
                   tintColor={colors.buttonPrimary}
                   colors={[colors.buttonPrimary]}
                 />

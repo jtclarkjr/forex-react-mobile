@@ -3,7 +3,7 @@ import { View, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { Text } from '@/components/common/Themed'
 import { useAppTheme } from '@/styles/theme'
 import { createWatchlistItemStyles } from '@/styles/watchlistItem'
-import useForexStream from '@/hooks/useForexStream'
+import useForexStream from '@/hooks/adapters/useForexStreamAdapter'
 import type {
   WatchlistItem as WatchlistItemType,
   CurrencyPair

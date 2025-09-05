@@ -1,5 +1,7 @@
 import type { SupportedCurrency, SupportedPair } from '@/types/forex'
 
+export const API_ENDPOINT = '/api/forex'
+
 export const SUPPORTED_CURRENCIES: SupportedCurrency[] = [
   'USD',
   'JPY',

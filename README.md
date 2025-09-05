@@ -140,7 +140,9 @@ For production builds and testing on physical iOS devices, you can use Xcode:
    - Click the "Play" button in Xcode or press `Cmd+R`
    - App will compile and install directly to your device
 
-> **Note**: For development builds to work on device, you must have Metro bundler running. Use `bun ios` or `bunx expo start --dev-client` and ensure both your computer and device are on the same network.
+> **Note**: For development builds to work on device, you must have Metro
+> bundler running. Use `bun ios` or `bunx expo start --dev-client` and ensure
+> both your computer and device are on the same network.
 
 ### Development vs. Production Builds
 
@@ -191,8 +193,8 @@ eas build --platform ios
 │   ├── Forex.ts                  # Forex-related constants
 │   └── Colors.ts                 # Theme color definitions
 ├── hooks/
-│   ├── useForexStream.ts         # Enhanced streaming with error handling
-│   ├── useWatchlist.ts           # Watchlist management with bulk operations
+│   ├── adapters/
+│   │   └── useForexStreamAdapter.ts # Forex stream adapter for Zustand stores
 │   ├── useColorScheme.ts         # Color scheme hook
 │   ├── useColorScheme.web.ts     # Web-specific color scheme hook
 │   ├── useClientOnlyValue.ts     # Client-only value hook
@@ -212,6 +214,11 @@ eas build --platform ios
 │   ├── pairDetails.ts            # Pair details modal styles
 │   ├── watchlistItem.ts          # Watchlist item styles
 │   └── swipeableWatchlistItem.ts # Swipeable item styles
+├── stores/
+│   ├── index.ts                  # Store exports
+│   ├── init.ts                   # Immer plugin initialization
+│   ├── forexStore.ts             # Zustand forex stream state management
+│   └── watchlistStore.ts         # Zustand watchlist state with persistence
 ├── types/
 │   └── forex.ts                  # Comprehensive TypeScript definitions
 └── README.md
@@ -285,12 +292,13 @@ bun test         # Run tests with Jest
 - **Gesture Animations**: Smooth swipe-to-delete and drag-to-reorder
 - **State Management**: Coordinated animation states with React state
 
-### Data Management
+### State Management
 
-- **AsyncStorage**: Persistent watchlist storage with migration support
-- **Real-time Updates**: Live data streaming with connection status tracking
-- **Bulk Operations**: Efficient multi-item selection and operations
-- **Type Safety**: Comprehensive TypeScript coverage
+- **Zustand Stores**: Global state management with minimal boilerplate
+- **Persistent Storage**: Automatic AsyncStorage integration with data migration
+- **Real-time Data**: Forex stream state management with connection tracking
+- **Adapter Pattern**: Backward-compatible hooks for gradual migration
+- **Type Safety**: Comprehensive TypeScript coverage with strict typing
 
 ## Development Notes
 

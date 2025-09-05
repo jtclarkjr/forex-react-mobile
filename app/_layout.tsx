@@ -11,7 +11,9 @@ import { useEffect } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'
 
-import { useColorScheme } from '@/hooks/useColorScheme'
+import { useColorScheme } from '@/hooks/ui/useColorScheme'
+// Initialize stores with Immer plugins
+import '@/stores'
 
 export {
   // Catch any errors thrown by the Layout component.

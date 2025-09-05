@@ -1,5 +1,5 @@
 import { useThemeColor } from '@/components/common/Themed'
-import { useColorScheme } from '@/hooks/useColorScheme'
+import { useColorScheme } from '@/hooks/ui/useColorScheme'
 
 export interface AppThemeColors {
   // Core theme colors
