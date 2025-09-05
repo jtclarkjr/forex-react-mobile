@@ -1,4 +1,4 @@
-import { CURRENCY_NAMES, CURRENCY_SYMBOLS } from '@/constants/forex'
+import { CURRENCY_NAMES, CURRENCY_SYMBOLS } from '@/constants/Forex'
 import { SupportedCurrency } from '@/lib/types/forex'
 
 /**

@@ -257,7 +257,7 @@ bun web      # Web browser
 # Code quality
 bun lint     # Run oxlint with auto-fix
 bun format   # Format code with Prettier
-bun test         # Run tests with Jest
+bun run test         # Run tests with Jest
 ```
 
 ## Development Tools
