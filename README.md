@@ -79,6 +79,8 @@ docker pull paidyinc/one-frame:latest
 docker run -p 8080:8080 paidyinc/one-frame
 ```
 
+[Dockere image details](https://hub.docker.com/r/paidyinc/one-frame)
+
 The API service will be available at `http://localhost:8080`.
 
 ## Getting Started
@@ -140,7 +142,9 @@ For production builds and testing on physical iOS devices, you can use Xcode:
    - Click the "Play" button in Xcode or press `Cmd+R`
    - App will compile and install directly to your device
 
-> **Note**: For development builds to work on device, you must have Metro bundler running. Use `bun ios` or `bunx expo start --dev-client` and ensure both your computer and device are on the same network.
+> **Note**: For development builds to work on device, you must have Metro
+> bundler running. Use `bun ios` or `bunx expo start --dev-client` and ensure
+> both your computer and device are on the same network.
 
 ### Development vs. Production Builds
 
