@@ -141,11 +141,6 @@ export default function WatchlistScreen() {
     removePair(itemId)
   }
 
-  const handleDelete = (itemId: string) => {
-    // Immediate delete: trigger haptic and start animated removal without confirmation
-    handleAnimatedDelete(itemId)
-  }
-
   const handleDragEnd = ({ data }: { data: WatchlistItemType[] }) => {
     reorderPairs(data)
   }
@@ -166,7 +161,7 @@ export default function WatchlistScreen() {
           index={items.findIndex((i) => i.id === item.id)}
           onToggleActive={() => {}} // Disabled for now
           onPress={handleItemPress}
-          onDelete={handleDelete}
+          onDelete={handleAnimatedDelete}
           onDrag={drag}
           isDragging={isActive}
           isRemoving={removingItems.has(item.id)}
