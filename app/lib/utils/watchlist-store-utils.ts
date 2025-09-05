@@ -13,7 +13,7 @@ import { SUPPORTED_PAIRS, AVAILABLE_PAIRS } from '@/lib/constants/Forex'
 /** Configuration constants for watchlist store */
 export const WATCHLIST_CONFIG = {
   /** Storage key for persisting watchlist data */
-  STORAGE_KEY: 'forex_watchlist_v2',
+  STORAGE_KEY: process.env.EXPO_PUBLIC_STORAGE_KEY,
   /** Default active state for new watchlist items */
   DEFAULT_ITEM_ACTIVE_STATE: true,
   /** Refresh delay for UX feedback */
