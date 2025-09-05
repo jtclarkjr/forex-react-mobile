@@ -3,7 +3,7 @@ import { subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 import type { ForexRate, SupportedPair, ConnectionStatus } from '@/types/forex'
 import type { ForexStore, ForexDataResult } from '@/types/forexStore'
-import { API_ENDPOINT, FOREX_UPDATE_INTERVAL } from '@/constants/Forex'
+import { API_ENDPOINT, FOREX_UPDATE_INTERVAL } from '@/lib/constants/Forex'
 import {
   createForexApiUrl,
   parseForexApiResponse,

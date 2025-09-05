@@ -12,7 +12,7 @@ import { useWatchlistStore } from '@/stores'
 import type {
   SupportedPair,
   WatchlistItem as WatchlistItemType
-} from '@/types/forex'
+} from '@/lib/types/forex'
 import { successHaptic, errorHaptic } from '@/lib/utils/haptics'
 
 // components
@@ -92,7 +92,7 @@ export default function WatchlistScreen() {
       <ScaleDecorator>
         <AnimatedWatchlistItem
           item={item}
-          index={items.findIndex((i) => i.id === item.id)}
+          index={items.findIndex((i: WatchlistItemType) => i.id === item.id)}
           onToggleActive={() => {}} // Disabled for now
           onPress={navigateToPairDetails}
           onDelete={handleAnimatedDelete}

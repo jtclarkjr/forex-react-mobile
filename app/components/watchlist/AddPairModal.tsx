@@ -11,7 +11,7 @@ import { Text } from '@/components/common/Themed'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useAppTheme } from '@/styles/theme'
 import { createMainScreenStyles } from '@/styles/mainScreen'
-import type { SupportedPair } from '@/types/forex'
+import type { SupportedPair } from '@/lib/types/forex'
 import { lightHaptic, errorHaptic } from '@/lib/utils/haptics'
 
 interface AddPairModalProps {

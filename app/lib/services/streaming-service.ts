@@ -3,7 +3,7 @@ import type {
   ApiResponse,
   ForexServiceResponse
 } from '@/types/forex'
-import { FOREX_SERVICE_CONFIG } from '@/constants/Config'
+import { FOREX_SERVICE_CONFIG } from '@/lib/constants/Config'
 import { formatForexResponse, formatPairForApi } from '@/lib/utils/forex-utils'
 
 const FOREX_SERVICE_URL = FOREX_SERVICE_CONFIG.BASE_URL

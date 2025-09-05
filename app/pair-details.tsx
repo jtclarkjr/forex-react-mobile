@@ -5,7 +5,7 @@ import { useLocalSearchParams } from 'expo-router'
 import { useAppTheme } from '@/styles/theme'
 import { createPairDetailsStyles } from '@/styles/pairDetails'
 
-import type { CurrencyPair } from '@/types/forex'
+import type { CurrencyPair } from '@/lib/types/forex'
 
 // components
 import useForexStream from '@/hooks/adapters/useForexStreamAdapter'
@@ -50,9 +50,7 @@ export default function PairDetailsModal() {
         barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.textColor}
       />
-
       <ConnectionStatus status={connectionStatus} pairString={pairString} />
-
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {loading && !data ? (
           <LoadingState />
