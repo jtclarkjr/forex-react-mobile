@@ -1,12 +1,5 @@
 import React, { useState } from 'react'
-import {
-  View,
-  TouchableOpacity,
-  Alert,
-  StatusBar,
-  SafeAreaView,
-  RefreshControl
-} from 'react-native'
+import { View, Alert, SafeAreaView, RefreshControl } from 'react-native'
 
 import { useAppTheme } from '@/styles/theme'
 import { createMainScreenStyles } from '@/styles/mainScreen'
@@ -24,11 +17,11 @@ import { successHaptic, errorHaptic } from '@/lib/utils/haptics'
 
 // components
 import { usePairNavigation } from '@/hooks/usePairNavigation'
-import { Text } from '@/components/common/Themed'
 import LoadingScreen from '@/components/common/LoadingScreen'
 import EmptyState from '@/components/watchlist/EmptyState'
 import AddPairModal from '@/components/watchlist/AddPairModal'
 import AnimatedWatchlistItem from '@/components/watchlist/AnimatedWatchlistItem'
+import WatchlistHeader from '@/components/watchlist/WatchlistHeader'
 
 export default function WatchlistScreen() {
   const {
@@ -50,7 +43,7 @@ export default function WatchlistScreen() {
   const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
 
   // Theme and navigation
-  const { colorScheme, colors } = useAppTheme()
+  const { colors } = useAppTheme()
   const styles = createMainScreenStyles(colors)
   const { navigateToPairDetails } = usePairNavigation()
 
@@ -121,33 +114,10 @@ export default function WatchlistScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <StatusBar
-          barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
-          backgroundColor={colors.screenBackground}
+        <WatchlistHeader
+          onAddPress={() => setShowAddModal(true)}
+          canAdd={availablePairs.length > 0}
         />
-
-        <View style={styles.header}>
-          <Text style={styles.title}>Forex Watchlist</Text>
-        </View>
-
-        <View style={styles.toolbar}>
-          <View style={styles.toolbarTrailing}>
-            <TouchableOpacity
-              onPress={() => setShowAddModal(true)}
-              disabled={availablePairs.length === 0}
-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-              <Text
-                style={[
-                  styles.toolbarAction,
-                  availablePairs.length === 0 && styles.toolbarActionDisabled
-                ]}
-              >
-                + Add Pair
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
 
         <View style={{ flex: 1 }}>
           {!items.length ? (

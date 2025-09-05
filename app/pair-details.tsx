@@ -61,11 +61,8 @@ export default function PairDetailsModal() {
         ) : data ? (
           <>
             <PriceCard price={data.price} timestamp={data.time_stamp} />
-
             <BidAskCard bid={data.bid} ask={data.ask} />
-
             <CurrencyInfo base={base} quote={quote} />
-
             <TechnicalDetails from={data.from} to={data.to} />
           </>
         ) : (
