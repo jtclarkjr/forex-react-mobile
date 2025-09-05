@@ -2,7 +2,7 @@ import type {
   ForexRate,
   ApiResponse,
   ForexServiceResponse
-} from '@/types/forex'
+} from '@/lib/types/forex'
 
 // Formats service response numbers to consistent precision
 export const formatForexResponse = (

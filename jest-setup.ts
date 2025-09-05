@@ -3,6 +3,26 @@ import '@testing-library/jest-native/extend-expect'
 // Mock React Native modules
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 
+// Mock React Native completely to avoid Flow type issues
+jest.mock('react-native', () => ({
+  Platform: {
+    OS: 'ios',
+    select: jest.fn((obj) => obj.ios || obj.default)
+  },
+  Dimensions: {
+    get: jest.fn(() => ({ width: 375, height: 667 }))
+  },
+  useColorScheme: jest.fn(() => 'light'),
+  // Add other commonly needed mocks
+  StyleSheet: {
+    create: jest.fn((styles) => styles)
+  },
+  Text: 'Text',
+  View: 'View',
+  ScrollView: 'ScrollView',
+  TouchableOpacity: 'TouchableOpacity'
+}))
+
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
@@ -53,7 +73,10 @@ beforeAll(() => {
   console.error = (...args) => {
     if (
       typeof args[0] === 'string' &&
-      args[0].includes('Warning: ReactDOM.render is deprecated')
+      (args[0].includes('Warning: ReactDOM.render is deprecated') ||
+        args[0].includes(
+          'An update to HookContainer inside a test was not wrapped in act(...)'
+        ))
     ) {
       return
     }

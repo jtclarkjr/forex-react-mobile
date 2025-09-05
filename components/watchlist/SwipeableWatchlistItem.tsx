@@ -10,7 +10,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import WatchlistItem from './WatchlistItem'
-import type { WatchlistItem as WatchlistItemType } from '@/types/forex'
+import type { WatchlistItem as WatchlistItemType } from '@/lib/types/forex'
 import { useAppTheme } from '@/styles/theme'
 import { createSwipeableWatchlistItemStyles } from '@/styles/swipeableWatchlistItem'
 import { mediumHaptic } from '@/lib/utils/haptics'

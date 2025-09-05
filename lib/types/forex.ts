@@ -66,7 +66,7 @@ export interface UseForexStreamReturn extends UseForexStreamState {
 
 export interface WatchlistItem {
   id: string
-  pair?: CurrencyPair // Made optional to handle migration from old format
+  pair: CurrencyPair
   pairString: string
   isActive: boolean
 }

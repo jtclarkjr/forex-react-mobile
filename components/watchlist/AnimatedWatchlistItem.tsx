@@ -7,7 +7,7 @@ import Animated, {
   runOnJS
 } from 'react-native-reanimated'
 import SwipeableWatchlistItem from './SwipeableWatchlistItem'
-import type { WatchlistItem as WatchlistItemType } from '@/types/forex'
+import type { WatchlistItem as WatchlistItemType } from '@/lib/types/forex'
 
 interface AnimatedWatchlistItemProps {
   item: WatchlistItemType
