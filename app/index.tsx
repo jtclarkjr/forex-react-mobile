@@ -7,10 +7,10 @@ import {
   SafeAreaView,
   RefreshControl
 } from 'react-native'
-import { Text } from '@/components/common/Themed'
+
 import { useAppTheme } from '@/styles/theme'
 import { createMainScreenStyles } from '@/styles/mainScreen'
-import AnimatedWatchlistItem from '@/components/watchlist/AnimatedWatchlistItem'
+
 import DraggableFlatList, {
   ScaleDecorator,
   RenderItemParams
@@ -22,11 +22,13 @@ import type {
 } from '@/types/forex'
 import { successHaptic, errorHaptic } from '@/lib/utils/haptics'
 
-// Extracted components
+// components
+import { usePairNavigation } from '@/hooks/usePairNavigation'
+import { Text } from '@/components/common/Themed'
 import LoadingScreen from '@/components/common/LoadingScreen'
 import EmptyState from '@/components/watchlist/EmptyState'
 import AddPairModal from '@/components/watchlist/AddPairModal'
-import { usePairNavigation } from '@/hooks/usePairNavigation'
+import AnimatedWatchlistItem from '@/components/watchlist/AnimatedWatchlistItem'
 
 export default function WatchlistScreen() {
   const {
