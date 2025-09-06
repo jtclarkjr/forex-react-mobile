@@ -26,16 +26,24 @@ export const useForexStore = create<ForexStore>()(
             const response = await fetch(
               createForexApiUrl(pairString, API_ENDPOINT)
             )
+            
+            if (!response.ok) {
+              throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+            }
+            
             const result = await response.json()
             const parsed = parseForexApiResponse(result)
 
+            // Handle both success and API-level errors from parsing
             if (parsed.success && parsed.data) {
               get().updateRate(pairString, parsed.data)
             } else {
-              get().setError(pairString, parsed.error || 'Failed to fetch data')
+              // API returned an error response - this is NOT a network error
+              get().setError(pairString, parsed.error || 'API error')
             }
           } catch (error) {
-            console.error('Error fetching forex data:', error)
+            // Handle network/fetch/parsing errors only
+            console.error('Network error fetching forex data:', error)
             get().setError(pairString, processForexError(error))
           }
         }
