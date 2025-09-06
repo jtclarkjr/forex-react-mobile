@@ -75,7 +75,7 @@ export const createWatchlistItem = (
       quote: quote as CurrencyPair['quote']
     },
     pairString,
-    isActive: options.isActive ?? WATCHLIST_CONFIG.DEFAULT_ITEM_ACTIVE_STATE
+    isActive: options.isActive || WATCHLIST_CONFIG.DEFAULT_ITEM_ACTIVE_STATE
   }
 }
 
