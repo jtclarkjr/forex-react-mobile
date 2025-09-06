@@ -1,4 +1,4 @@
-import type { ForexRate, SupportedPair } from '@/lib/types/forex'
+import type { ForexRate, SupportedPair, ApiResponse } from '@/lib/types/forex'
 
 /**
  * Creates the API URL for fetching forex data for a specific pair
@@ -11,30 +11,14 @@ export const createForexApiUrl = (
 }
 
 /**
- * API response structure for type checking
- */
-interface ApiResponse {
-  success?: boolean
-  data?: ForexRate
-  error?: string
-}
-
-/**
- * Result of parsing an API response
- */
-export interface ParsedApiResponse {
-  success: boolean
-  data?: ForexRate
-  error?: string
-}
-
-/**
  * Handles API response and determines if it's successful
  */
-export const parseForexApiResponse = (result: unknown): ParsedApiResponse => {
+export const parseForexApiResponse = (
+  result: unknown
+): ApiResponse<ForexRate> => {
   // Type guard for API response structure
   if (typeof result === 'object' && result !== null) {
-    const apiResult = result as ApiResponse
+    const apiResult = result as ApiResponse<ForexRate>
     if (apiResult.success && apiResult.data) {
       return { success: true, data: apiResult.data }
     }
