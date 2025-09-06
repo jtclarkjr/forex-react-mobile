@@ -8,7 +8,7 @@ import type {
   CreateItemOptions,
   PairValidationResult
 } from '@/lib/types/watchlistStore'
-import { SUPPORTED_PAIRS, AVAILABLE_PAIRS } from '@/constants/forex'
+import { SUPPORTED_PAIRS, AVAILABLE_PAIRS } from '@/constants/Forex'
 
 /** Configuration constants for watchlist store */
 export const WATCHLIST_CONFIG = {
@@ -75,7 +75,7 @@ export const createWatchlistItem = (
       quote: quote as CurrencyPair['quote']
     },
     pairString,
-    isActive: options.isActive ?? WATCHLIST_CONFIG.DEFAULT_ITEM_ACTIVE_STATE
+    isActive: options.isActive || WATCHLIST_CONFIG.DEFAULT_ITEM_ACTIVE_STATE
   }
 }
 

@@ -7,42 +7,9 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "jest --watchAll",
+    "test": "jest",
     "lint": "oxlint . --fix && tsc --noEmit",
     "format": "prettier --write ."
-  },
-  "jest": {
-    "preset": "jest-expo",
-    "setupFilesAfterEnv": [
-      "<rootDir>/jest-setup.ts"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|zustand|immer)"
-    ],
-    "moduleNameMapping": {
-      "^react-native$": "react-native"
-    },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ],
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": [
-        "babel-jest",
-        {
-          "presets": [
-            "babel-preset-expo"
-          ]
-        }
-      ]
-    },
-    "testEnvironment": "jsdom",
-    "fakeTimers": {
-      "enableGlobally": true
-    }
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",

@@ -8,7 +8,7 @@ import {
   DEFAULT_WATCHLIST_PAIRS,
   AVAILABLE_PAIRS,
   SUPPORTED_PAIRS
-} from '@/constants/forex'
+} from '@/constants/Forex'
 import {
   WATCHLIST_CONFIG,
   InvalidPairError,

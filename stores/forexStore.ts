@@ -7,7 +7,7 @@ import type {
   ConnectionStatus
 } from '@/lib/types/forex'
 import type { ForexStore, ForexDataResult } from '@/lib/types/forexStore'
-import { API_ENDPOINT, FOREX_UPDATE_INTERVAL } from '@/constants/forex'
+import { API_ENDPOINT, FOREX_UPDATE_INTERVAL } from '@/constants/Forex'
 import {
   createForexApiUrl,
   parseForexApiResponse,
