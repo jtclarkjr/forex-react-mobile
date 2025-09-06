@@ -9,5 +9,5 @@ export { createPairDetailsStyles } from './pairDetails'
 export { createSwipeableWatchlistItemStyles } from './swipeableWatchlistItem'
 
 // https://docs.expo.dev/versions/v54.0.0/sdk/ui/
-// Has built in UI component library in expo 54 -  Expo UI
-// Worth checking out in future for prebuilt components and styles
+// Has built in UI component library in expo 54 - Expo UI
+// Worth checking out in future for prebuilt components and styles with native look and feel
