@@ -140,10 +140,6 @@ export const useWatchlistStore = create<WatchlistStore>()(
         })
       },
 
-      // =========================================================================
-      // DATA ACCESS METHODS
-      // =========================================================================
-
       /**
        * Gets all currency pairs that can be added to the watchlist
        * @returns Array of available currency pairs
