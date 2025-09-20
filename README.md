@@ -76,7 +76,7 @@ docker pull paidyinc/one-frame:latest
 2. Run the service:
 
 ```bash
-docker run -p 8080:8080 paidyinc/one-frame
+docker run --rm -p 8080:8080 paidyinc/one-frame
 ```
 
 [Docker image details](https://hub.docker.com/r/paidyinc/one-frame)
